@@ -1,7 +1,12 @@
 import React from "react";
 import { View,Text, StyleSheet, Touchable, TouchableOpacity } from "react-native";
 
+import { complexAlgebraData } from "../config/quizData";
+
 const Quiz=(props) => {
+
+    
+
     return (
       <View style={styles.container}>
     
