@@ -1,11 +1,13 @@
 import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
 import { useState } from 'react';
+
 import { complexAlgebraData } from "../config/quizData";
 
 import Quiz from "../components/QuizButton.js";
 
 import { FontAwesome5 } from '@expo/vector-icons';
+import { Ionicons } from '@expo/vector-icons';
 
 function QuizScreen(props) {
 
@@ -35,14 +37,46 @@ function QuizScreen(props) {
   }
 
   return (
+    
     <View style={styles.container}>
+
+      {/* Header + Back Button */}
+      <View style={styles.header}>
+        <TouchableOpacity onPress={() => console.log("Back Button Clciked")}>
+        <FontAwesome5 style={styles.backIcon} name="backspace" size={32} color="#ffbb33" />
+        </TouchableOpacity>
+        <Text style={styles.headerText}>MANA MATH</Text>
+      </View>
+
+      
+
       {showFinishQuiz ? <View>
         <Text>You have finish the quiz</Text>
       </View> :
-      <View>
-        <Text>Questions</Text>
-        <Text style={styles.questionText}> {complexAlgebraData[currentQuestion]?.question} </Text>
+      <View style={styles.answerButtons}>
+        {/* <Text>Questions</Text> */}
+        {/* <Text style={styles.questionText}> {complexAlgebraData[currentQuestion]?.question} </Text> */}
         {/* Answer Options */}
+
+        <View style={styles.statisticsPannel}>
+          <View style={styles.statisticsPanelleft}>
+            <Text style={styles.statisticsPannelText}>Question No. {currentQuestion+1}/10</Text>
+            <Text style={styles.statisticsPannelText}>What is: </Text>
+          </View>
+          
+          <View style={styles.statisticsPannelright}>
+            <View style={styles.timer}>
+              <Image style={{marginRight:5,paddingBottom:5}} source={require('../assets/clock.png')} />
+              {/* <Ionicons name="timer-outline" size={16} color="black" /> */}
+              <Text style={styles.statisticsPannelText}>00-00-00</Text>
+            </View>
+            <Text style={styles.statisticsPannelText}>{complexAlgebraData[currentQuestion]?.question} </Text>
+          </View>
+        </View>
+
+        <View style={styles.answerButtons}>
+
+        </View>
         {complexAlgebraData[currentQuestion]?.options.map((item) => {
             return <Quiz text={item} onPress={()=> clickAnswer(item)}/>
             // <TouchableOpacity onPress={()=> handleAnswer(item)}>
@@ -69,7 +103,28 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
+    backgroundColor: '#172A41',
   },
+
+  header:{
+    marginBottom:60,
+  },
+  backIcon:{
+    alignSelf:'flex-start',
+    paddingBottom:5,
+  },
+  headerText:{
+    color: '#FFF',
+    fontWeight:'bold',
+    fontSize:30,
+    textAlign:'left',
+  },
+
+  answerButtons:{
+    justifyContent:'center',
+    alignItems:'center',
+  },
+
   button:{
     flexDirection:'row',
     borderRadius:20,
@@ -80,14 +135,58 @@ const styles = StyleSheet.create({
     alignItems:'center',
     padding:10,
     margin:5,
-},
+  },
   buttonText:{
     color: 'black',
     fontWeight:'bold',
     fontSize:15,
     textAlign:'left',
-    
-},
+  },
+
+  statisticsPannel:{
+    flexDirection:'row',
+    justifyContent: 'center',
+    alignItems:'center',
+    width:329,
+    height:112,
+    backgroundColor:'#FFC700',
+    borderRadius:20,
+    marginBottom:10,
+  },
+
+  statisticsPannelleft:{
+    flexDirection:'column',
+    justifyContent:'space-around',
+    // alignItems:'center',
+    // marginLeft:20,
+    marginRight:20,
+
+  },
+  timer:{
+    flexDirection:'row',
+    justifyContent:'center',
+    alignItems:'center',
+  },
+
+  statisticsPannelright:{
+    flexDirection:'column',
+    justifyContent:'space-around',
+    // alignItems:'center',
+    marginLeft:20,
+    // marginRight:20,
+  },
+
+  statisticsPannelText:{
+    color: 'black',
+    fontWeight:'bold',
+    fontSize:16,
+    paddingTop:10,
+    paddingBottom:10,
+    // textAlign:'left',
+  },
+
+
+
 });
 
 export default QuizScreen;
