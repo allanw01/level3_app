@@ -77,8 +77,8 @@ function QuizScreen(props) {
         <View style={styles.answerButtons}>
 
         </View>
-        {complexAlgebraData[currentQuestion]?.options.map((item) => {
-            return <Quiz text={item} onPress={()=> clickAnswer(item)}/>
+        {complexAlgebraData[currentQuestion]?.options.map((item, index) => {
+            return <Quiz key={index} text={item} onPress={()=> clickAnswer(item)}/>
             // <TouchableOpacity onPress={()=> handleAnswer(item)}>
             //   <Text>{item}</Text>
             // </TouchableOpacity>
