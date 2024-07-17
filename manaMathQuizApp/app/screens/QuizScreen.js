@@ -14,16 +14,26 @@ function QuizScreen(props) {
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [showFinishQuiz, setShowFinishQuiz] = useState(false);
   const [selectedAnswer, setSelectedAnswer] = useState(false);
+  const [userAnswer, setUserAnswer] = useState('')
+  const [score, setScore] = useState(0);
 
   const clickAnswer = (clickAnswer) => {
-    const userAnswer = clickAnswer
-    console.log(userAnswer)
+    const userClicked = clickAnswer
+    console.log('user anw ' + userClicked)
     setSelectedAnswer(true)
+    setUserAnswer(clickAnswer)
+    console.log(userAnswer)
   }
 
   const handleAnswer = (confirmAnswer) => {
     const answer = complexAlgebraData[currentQuestion]?.answer;
-
+    
+    console.log('submit pressed ' + answer)
+    if(answer === userAnswer){
+      setScore((prevScore) => prevScore + 1);
+      console.log('Current score: ' + score)
+    }
+    
     if (selectedAnswer) {
       const nextQuestion = currentQuestion + 1;
       if(nextQuestion < complexAlgebraData.length) {
@@ -52,6 +62,8 @@ function QuizScreen(props) {
 
       {showFinishQuiz ? <View>
         <Text>You have finish the quiz</Text>
+        <Text>Your score {score} /10</Text>
+        
       </View> :
       <View style={styles.answerButtons}>
         {/* <Text>Questions</Text> */}
