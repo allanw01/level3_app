@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 
 import { complexAlgebraData } from "../config/quizData";
 
@@ -11,12 +11,57 @@ import { Ionicons } from '@expo/vector-icons';
 
 function QuizScreen(props) {
 
+  // Variables for running the quiz:
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [showFinishQuiz, setShowFinishQuiz] = useState(false);
   const [selectedAnswer, setSelectedAnswer] = useState(false);
+
+  // Variables for the score Tracker:
   const [userAnswer, setUserAnswer] = useState('')
   const [score, setScore] = useState(0);
 
+  // Variables for the quiz timer:
+  const [time, setTime] = useState(0); // State to keep track of the elapsed time in seconds
+  const [timerIsRunning, setTimerIsRunning] = useState(true);  // State to determine if the stopwatch is running or not
+  const timerRef = useRef(null); // Reference to store the interval ID for the timer
+
+  // Quiz Timer:
+  useEffect(() => {
+    if (timerIsRunning) {
+      // If the stopwatch is running, set an interval to update the time state every second
+      timerRef.current = setInterval(() => {
+        setTime(prevTime => prevTime + 1);
+      }, 1000);
+    } else if (!timerIsRunning && timerRef.current) {
+      // If the stopwatch is not running, clear the interval
+      clearInterval(timerRef.current);
+    }
+    // Cleanup function to clear the interval when the component unmounts
+    return () => clearInterval(timerRef.current);
+  }, [timerIsRunning]);
+
+  // Handler for the start/stop button
+  const handleStop = () => {
+    setTimerIsRunning(false);
+  };
+
+  // Handler for the reset button
+  const handleReset = () => {
+    setIsTimerRunning(false);
+    setTime(0);
+  };
+
+  // Function to format the time in HH:MM:SS format
+  const formatTime = (time) => {
+    const getSeconds = `0${(time % 60)}`.slice(-2);
+    const minutes = `${Math.floor(time / 60)}`;
+    const getMinutes = `0${minutes % 60}`.slice(-2);
+    const getHours = `0${Math.floor(time / 3600)}`.slice(-2);
+
+    return `${getHours} : ${getMinutes} : ${getSeconds}`;
+  };
+
+  // Running the Quiz
   const clickAnswer = (clickAnswer) => {
     const userClicked = clickAnswer
     console.log('user anw ' + userClicked)
@@ -27,7 +72,7 @@ function QuizScreen(props) {
 
   const handleAnswer = (confirmAnswer) => {
     const answer = complexAlgebraData[currentQuestion]?.answer;
-    
+    handleStop()
     console.log('submit pressed ' + answer)
     if(answer === userAnswer){
       setScore((prevScore) => prevScore + 1);
@@ -43,7 +88,6 @@ function QuizScreen(props) {
       }
       setSelectedAnswer(false)
     }
-    
   }
 
   return (
@@ -62,7 +106,8 @@ function QuizScreen(props) {
 
       {showFinishQuiz ? <View>
         <Text>You have finish the quiz</Text>
-        <Text>Your score {score} /10</Text>
+        <Text>Your score {score} /2</Text>
+        <Text>Your time is {formatTime(time)}</Text>
         
       </View> :
       <View style={styles.answerButtons}>
