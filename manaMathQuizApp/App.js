@@ -7,6 +7,6 @@ import HomeScreen from './app/screens/HomeScreen';
 import FinishScreen from './app/screens/FinishScreen';
 
 export default function App() {
-  return <FinishScreen/>;
+  return <QuizScreen/>;
 }
 

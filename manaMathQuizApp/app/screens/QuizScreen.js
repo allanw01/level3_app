@@ -72,7 +72,7 @@ function QuizScreen(props) {
 
   const handleAnswer = (confirmAnswer) => {
     const answer = complexAlgebraData[currentQuestion]?.answer;
-    handleStop()
+    
     console.log('submit pressed ' + answer)
     if(answer === userAnswer){
       setScore((prevScore) => prevScore + 1);
@@ -84,6 +84,7 @@ function QuizScreen(props) {
       if(nextQuestion < complexAlgebraData.length) {
         setCurrentQuestion(nextQuestion);
       } else {
+        handleStop()
         setShowFinishQuiz(true);
       }
       setSelectedAnswer(false)
@@ -125,7 +126,7 @@ function QuizScreen(props) {
             <View style={styles.timer}>
               <Image style={{marginRight:5,paddingBottom:5}} source={require('../assets/clock.png')} />
               {/* <Ionicons name="timer-outline" size={16} color="black" /> */}
-              <Text style={styles.statisticsPannelText}>00-00-00</Text>
+              <Text style={styles.statisticsPannelText}>{formatTime(time)}</Text>
             </View>
             <Text style={styles.statisticsPannelText}>{complexAlgebraData[currentQuestion]?.question} </Text>
           </View>
