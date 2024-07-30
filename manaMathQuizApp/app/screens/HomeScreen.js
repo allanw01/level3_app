@@ -8,7 +8,7 @@ import PBStats from "../components/PBStats";
 import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
 import { Ionicons } from '@expo/vector-icons';
 
-function HomeScreen(props) {
+function HomeScreen( { navigation } ) {
 
   return (
     <View style={styles.container}>
@@ -43,7 +43,7 @@ function HomeScreen(props) {
         <HomeBtn onPress={() => console.log("Practice")} text='Practice' imgSource ={require('../assets/practice.png')}/>
         <HomeBtn onPress={() => console.log("integration")} text='Integration' imgSource ={require('../assets/integration.png')}/>
         <HomeBtn onPress={() => console.log("Differentiation")} text='Differentiation' imgSource ={require('../assets/differentiation.png')}/>
-        <HomeBtn onPress={() => console.log("Complex Numbers")} text='Complex Numbers' imgSource ={require('../assets/complexNum.png')}/>
+        <HomeBtn onPress={() => navigation.navigate("Quiz")} text='Complex Numbers' imgSource ={require('../assets/complexNum.png')}/>
       </View>
       
     </View>

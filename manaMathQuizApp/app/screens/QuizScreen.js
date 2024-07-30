@@ -2,6 +2,8 @@ import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
 import { useState, useRef, useEffect } from 'react';
 
+import { StackActions } from '@react-navigation/native';
+
 import { complexAlgebraData } from "../config/quizData";
 
 import Quiz from "../components/QuizButton.js";
@@ -9,7 +11,7 @@ import Quiz from "../components/QuizButton.js";
 import { FontAwesome5 } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
 
-function QuizScreen(props) {
+function QuizScreen( { navigation } ) {
 
   // Variables for running the quiz:
   const [currentQuestion, setCurrentQuestion] = useState(0);
@@ -85,6 +87,10 @@ function QuizScreen(props) {
         setCurrentQuestion(nextQuestion);
       } else {
         handleStop()
+        // navigation.navigate("Finish")
+        navigation.dispatch(
+          StackActions.replace("Finish", { score: score , time: formatTime(time)})
+        );
         setShowFinishQuiz(true);
       }
       setSelectedAnswer(false)

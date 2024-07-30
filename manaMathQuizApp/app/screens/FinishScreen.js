@@ -2,12 +2,17 @@ import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
 import { useState } from 'react';
 
+import { StackActions } from '@react-navigation/native';
+
 import QuickLinkButtons from '../components/QuickLinkButton';
 
 import { Ionicons } from '@expo/vector-icons';
 import { FontAwesome5 } from '@expo/vector-icons';
 
-function FinishScreen(props) {
+function FinishScreen( { navigation, route } ) {
+  
+  let score = route.params.score;
+  let time = route.params.time;
 
   return (
     <View style={styles.container}>
@@ -24,23 +29,23 @@ function FinishScreen(props) {
 
           <View style={styles.statisticsPanelTimer}>
             <Image style={{marginRight:5,paddingBottom:5}} source={require('../assets/clock.png')} />
-            <Text style={styles.statisticsPanelText}>Your time: 00-00-00</Text>
+            <Text style={styles.statisticsPanelText}>Time: {time}</Text>
           </View>
           <View style={styles.statisticsPanelScore}>
             <Image style={{marginRight:5,paddingBottom:5}} source={require('../assets/score.png')} />
-            <Text style={styles.statisticsPanelText}>Final Score: 10/10</Text>
+            <Text style={styles.statisticsPanelText}>Final Score: {score}</Text>
           </View>
 
         </View>
 
         <View style={styles.quickLinks}>
           <View style={styles.quickLinksRow}>
-            <QuickLinkButtons text='Play Again' imgSource ={require('../assets/quickLinkIcons/play_again.png')}/>
+            <QuickLinkButtons text='Play Again' imgSource ={require('../assets/quickLinkIcons/play_again.png')} onPress={() => navigation.navigate("Quiz")}/>
             <QuickLinkButtons text='View Record' imgSource ={require('../assets/quickLinkIcons/view_record.png')}/>
             {/* <QuickLinkButtons text='Review Answers' imgSource ={require('../assets/quickLinkIcons/review_answers.png')}/> */}
           </View>
           <View style={styles.quickLinksRow}>
-            <QuickLinkButtons text='   Home    ' imgSource ={require('../assets/quickLinkIcons/home.png')}/>
+            <QuickLinkButtons text='   Home    ' imgSource ={require('../assets/quickLinkIcons/home.png')} onPress={() => navigation.navigate("Home")}/>
             <QuickLinkButtons text='Export' imgSource ={require('../assets/quickLinkIcons/export.png')}/>
             {/* <QuickLinkButtons text='Share' imgSource ={require('../assets/quickLinkIcons/share.png')}/> */}
           </View>
