@@ -16,10 +16,10 @@ function QuizScreen( { navigation } ) {
   // Variables for running the quiz:
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [showFinishQuiz, setShowFinishQuiz] = useState(false);
-  const [selectedAnswer, setSelectedAnswer] = useState(false);
+  // const [selectedAnswer, setSelectedAnswer] = useState(false);
 
   // Variables for the score Tracker:
-  const [userAnswer, setUserAnswer] = useState('')
+  // const [userAnswer, setUserAnswer] = useState('')
   const [score, setScore] = useState(0);
 
   // Variables for the quiz timer:
@@ -41,6 +41,19 @@ function QuizScreen( { navigation } ) {
     // Cleanup function to clear the interval when the component unmounts
     return () => clearInterval(timerRef.current);
   }, [timerIsRunning]);
+
+  const [shouldNavigate, setShouldNavigate] = useState(false);
+
+  useEffect(() => {
+    if (shouldNavigate) {
+      // Perform navigation after state update
+      navigation.dispatch(
+        StackActions.replace("Finish", { score: score , time: formatTime(time)})
+      ); // Pass the score as a parameter
+      setShouldNavigate(false); // Reset the flag
+    }
+  }, [shouldNavigate, score, navigation]);
+
 
   // Handler for the start/stop button
   const handleStop = () => {
@@ -65,36 +78,70 @@ function QuizScreen( { navigation } ) {
 
   // Running the Quiz
   const clickAnswer = (clickAnswer) => {
-    const userClicked = clickAnswer
-    console.log('user anw ' + userClicked)
+    // const userClicked = clickAnswer
+    // console.log('user anw ' + userClicked)
     setSelectedAnswer(true)
     setUserAnswer(clickAnswer)
     console.log(userAnswer)
   }
 
-  const handleAnswer = (confirmAnswer) => {
+
+  
+
+  const handleAnswer = (selectedAnswer) => {
     const answer = complexAlgebraData[currentQuestion]?.answer;
-    
-    console.log('submit pressed ' + answer)
-    if(answer === userAnswer){
-      setScore((prevScore) => prevScore + 1);
-      console.log('Current score: ' + score)
+    const nextQuestion = currentQuestion + 1;
+    const newScore = score
+    if(answer === selectedAnswer){
+      // setScore((prevScore) => prevScore + 1);
+      setScore(score+1);
+      const newScore = score +1
+      setCurrentQuestion(nextQuestion);
     }
+
     
-    if (selectedAnswer) {
-      const nextQuestion = currentQuestion + 1;
-      if(nextQuestion < complexAlgebraData.length) {
-        setCurrentQuestion(nextQuestion);
-      } else {
-        handleStop()
-        // navigation.navigate("Finish")
-        navigation.dispatch(
-          StackActions.replace("Finish", { score: score , time: formatTime(time)})
-        );
-        setShowFinishQuiz(true);
-      }
-      setSelectedAnswer(false)
+    if(nextQuestion < complexAlgebraData.length) {
+      setCurrentQuestion(nextQuestion);
+    } else {
+      handleStop()
+      setShowFinishQuiz(true);
+      setShouldNavigate(true);
+      // navigation.dispatch(
+      //   StackActions.replace("Finish", { score: score , time: formatTime(time)})
+      // );
+      // navigation.navigate("Finish", { score: score , time: formatTime(time)})
     }
+
+  
+
+  // const handleAnswer = (confirmAnswer) => {
+  //   const answer = complexAlgebraData[currentQuestion]?.answer;
+    
+  //   console.log('submit pressed ' + answer)
+    
+    
+  //   if (selectedAnswer) {
+  //     const nextQuestion = currentQuestion + 1;
+  //     if(answer === userAnswer){
+  //       // setScore((prevScore) => prevScore + 1);
+  //       test=score + 1
+  //       console.log('Current score' + test)
+  //       setScore(test);
+  //       console.log('data: '+ answer + ' userslection: ' + userAnswer )
+  //       console.log('Current score: ' + score)
+  //     }
+  //     if(nextQuestion < complexAlgebraData.length) {
+  //       setCurrentQuestion(nextQuestion);
+  //     } else {
+  //       handleStop()
+  //       // navigation.navigate("Finish")
+  //       navigation.dispatch(
+  //         StackActions.replace("Finish", { score: score , time: formatTime(time)})
+  //       );
+  //       setShowFinishQuiz(true);
+  //     }
+  //     setSelectedAnswer(false)
+  //   }
   }
 
   return (
@@ -115,6 +162,8 @@ function QuizScreen( { navigation } ) {
         <Text>You have finish the quiz</Text>
         <Text>Your score {score} /2</Text>
         <Text>Your time is {formatTime(time)}</Text>
+        
+        
         
       </View> :
       <View style={styles.answerButtons}>
@@ -142,19 +191,19 @@ function QuizScreen( { navigation } ) {
 
         </View>
         {complexAlgebraData[currentQuestion]?.options.map((item, index) => {
-            return <Quiz key={index} text={item} onPress={()=> clickAnswer(item)}/>
+            return <Quiz key={index} text={item} onPress={()=> handleAnswer(item)}/>
             // <TouchableOpacity onPress={()=> handleAnswer(item)}>
             //   <Text>{item}</Text>
             // </TouchableOpacity>
           })}
         
-        <TouchableOpacity onPress={()=> handleAnswer()}>
+        {/* <TouchableOpacity onPress={()=> handleAnswer()}>
             <View style={styles.button}>
                 <Text style={styles.buttonText}>Submit</Text>
                 <FontAwesome5 name="arrow-circle-right" size={32} color="black" />
                 <FontAwesome5 name="arrow-circle-right" size={32} color="black" />
             </View>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </View>
       }
     </View>
