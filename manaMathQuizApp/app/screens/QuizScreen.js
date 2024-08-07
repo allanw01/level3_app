@@ -16,10 +16,9 @@ function QuizScreen( { navigation } ) {
   // Variables for running the quiz:
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [showFinishQuiz, setShowFinishQuiz] = useState(false);
-  // const [selectedAnswer, setSelectedAnswer] = useState(false);
+  const [shouldNavigate, setShouldNavigate] = useState(false);
 
   // Variables for the score Tracker:
-  // const [userAnswer, setUserAnswer] = useState('')
   const [score, setScore] = useState(0);
 
   // Variables for the quiz timer:
@@ -42,15 +41,14 @@ function QuizScreen( { navigation } ) {
     return () => clearInterval(timerRef.current);
   }, [timerIsRunning]);
 
-  const [shouldNavigate, setShouldNavigate] = useState(false);
-
+  // Before Navigating, makes sure the score state is updated properly
   useEffect(() => {
     if (shouldNavigate) {
       // Perform navigation after state update
       navigation.dispatch(
         StackActions.replace("Finish", { score: score , time: formatTime(time)})
-      ); // Pass the score as a parameter
-      setShouldNavigate(false); // Reset the flag
+      ); 
+      setShouldNavigate(false); // Reset the navigation
     }
   }, [shouldNavigate, score, navigation]);
 
@@ -62,7 +60,7 @@ function QuizScreen( { navigation } ) {
 
   // Handler for the reset button
   const handleReset = () => {
-    setIsTimerRunning(false);
+    setTimerIsRunning(false);
     setTime(0);
   };
 
@@ -77,17 +75,6 @@ function QuizScreen( { navigation } ) {
   };
 
   // Running the Quiz
-  const clickAnswer = (clickAnswer) => {
-    // const userClicked = clickAnswer
-    // console.log('user anw ' + userClicked)
-    setSelectedAnswer(true)
-    setUserAnswer(clickAnswer)
-    console.log(userAnswer)
-  }
-
-
-  
-
   const handleAnswer = (selectedAnswer) => {
     const answer = complexAlgebraData[currentQuestion]?.answer;
     const nextQuestion = currentQuestion + 1;
@@ -95,53 +82,15 @@ function QuizScreen( { navigation } ) {
     if(answer === selectedAnswer){
       // setScore((prevScore) => prevScore + 1);
       setScore(score+1);
-      const newScore = score +1
       setCurrentQuestion(nextQuestion);
     }
 
-    
     if(nextQuestion < complexAlgebraData.length) {
       setCurrentQuestion(nextQuestion);
     } else {
       handleStop()
-      setShowFinishQuiz(true);
       setShouldNavigate(true);
-      // navigation.dispatch(
-      //   StackActions.replace("Finish", { score: score , time: formatTime(time)})
-      // );
-      // navigation.navigate("Finish", { score: score , time: formatTime(time)})
     }
-
-  
-
-  // const handleAnswer = (confirmAnswer) => {
-  //   const answer = complexAlgebraData[currentQuestion]?.answer;
-    
-  //   console.log('submit pressed ' + answer)
-    
-    
-  //   if (selectedAnswer) {
-  //     const nextQuestion = currentQuestion + 1;
-  //     if(answer === userAnswer){
-  //       // setScore((prevScore) => prevScore + 1);
-  //       test=score + 1
-  //       console.log('Current score' + test)
-  //       setScore(test);
-  //       console.log('data: '+ answer + ' userslection: ' + userAnswer )
-  //       console.log('Current score: ' + score)
-  //     }
-  //     if(nextQuestion < complexAlgebraData.length) {
-  //       setCurrentQuestion(nextQuestion);
-  //     } else {
-  //       handleStop()
-  //       // navigation.navigate("Finish")
-  //       navigation.dispatch(
-  //         StackActions.replace("Finish", { score: score , time: formatTime(time)})
-  //       );
-  //       setShowFinishQuiz(true);
-  //     }
-  //     setSelectedAnswer(false)
-  //   }
   }
 
   return (
@@ -156,21 +105,14 @@ function QuizScreen( { navigation } ) {
         <Text style={styles.headerText}>MANA MATH</Text>
       </View>
 
-      
-
       {showFinishQuiz ? <View>
         <Text>You have finish the quiz</Text>
         <Text>Your score {score} /2</Text>
         <Text>Your time is {formatTime(time)}</Text>
         
-        
-        
       </View> :
       <View style={styles.answerButtons}>
-        {/* <Text>Questions</Text> */}
-        {/* <Text style={styles.questionText}> {complexAlgebraData[currentQuestion]?.question} </Text> */}
-        {/* Answer Options */}
-
+        {/* Statistics Pannel */}
         <View style={styles.statisticsPannel}>
           <View style={styles.statisticsPanelleft}>
             <Text style={styles.statisticsPannelText}>Question No. {currentQuestion+1}/10</Text>
@@ -180,7 +122,6 @@ function QuizScreen( { navigation } ) {
           <View style={styles.statisticsPannelright}>
             <View style={styles.timer}>
               <Image style={{marginRight:5,paddingBottom:5}} source={require('../assets/clock.png')} />
-              {/* <Ionicons name="timer-outline" size={16} color="black" /> */}
               <Text style={styles.statisticsPannelText}>{formatTime(time)}</Text>
             </View>
             <Text style={styles.statisticsPannelText}>{complexAlgebraData[currentQuestion]?.question} </Text>
@@ -188,22 +129,12 @@ function QuizScreen( { navigation } ) {
         </View>
 
         <View style={styles.answerButtons}>
-
+        
+        {/* Mutichoice Answer Buttons */}
         </View>
         {complexAlgebraData[currentQuestion]?.options.map((item, index) => {
             return <Quiz key={index} text={item} onPress={()=> handleAnswer(item)}/>
-            // <TouchableOpacity onPress={()=> handleAnswer(item)}>
-            //   <Text>{item}</Text>
-            // </TouchableOpacity>
           })}
-        
-        {/* <TouchableOpacity onPress={()=> handleAnswer()}>
-            <View style={styles.button}>
-                <Text style={styles.buttonText}>Submit</Text>
-                <FontAwesome5 name="arrow-circle-right" size={32} color="black" />
-                <FontAwesome5 name="arrow-circle-right" size={32} color="black" />
-            </View>
-        </TouchableOpacity> */}
       </View>
       }
     </View>
