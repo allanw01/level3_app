@@ -1,12 +1,15 @@
 import React from "react";
-import { View,Text, StyleSheet, Image } from "react-native";
+import { View,Text, StyleSheet, Image, TouchableOpacity } from "react-native";
 
-const PBStats = ({ time, imgSource}) => {
+const PBStats = ({ onPress, text, imgSource}) => {
     return (
-        <View style={styles.stats}>
-            <Image style={styles.image} source={imgSource} />
-            <Text style={styles.time}>{time}</Text>
-        </View>
+        <TouchableOpacity onPress={onPress}>
+            <View style={styles.stats}>
+                <Image style={styles.image} source={imgSource} />
+                <Text style={styles.text}>{text}</Text>
+            </View>
+        </TouchableOpacity>
+        
         
     )
 }
@@ -26,7 +29,7 @@ const styles = StyleSheet.create({
         
         
     },
-    time: {
+    text: {
         color: 'black',
         fontWeight:'bold',
         fontSize:13,

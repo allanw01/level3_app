@@ -25,9 +25,9 @@ function HomeScreen( { navigation } ) {
       <View style={styles.viewRecord}>
         <Text style={styles.PBTitle}>Personal Best(100%)</Text>
         <View style={styles.pbStats}>
-          <PBStats time='00:00:00' imgSource ={require('../assets/integration.png')}/>
-          <PBStats time='00:00:00' imgSource ={require('../assets/differentiation.png')}/>
-          <PBStats time='00:00:00' imgSource ={require('../assets/complexNum.png')}/>
+          <PBStats text='00:00:00' imgSource ={require('../assets/integration.png')}/>
+          <PBStats text='00:00:00' imgSource ={require('../assets/differentiation.png')}/>
+          <PBStats onPress={() => navigation.navigate("View Record")} text='00:00:00' imgSource ={require('../assets/complexNum.png')}/>
         </View>
         <TouchableOpacity onPress={() => console.log("View Record Clicked")}>
           <View style={styles.viewRecordBtn}>
