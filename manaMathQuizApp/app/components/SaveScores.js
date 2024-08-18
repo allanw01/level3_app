@@ -1,81 +1,52 @@
-const SaveUserData = (userScore, userTime, file) => {
+import React, { useState, useEffect } from 'react';
+import { View, Text, Button, FlatList } from 'react-native';
+// import { AsyncStorage } from 'react-native'; 
 
-    const fs = require('fs');
-  
-    const getCurrentDate=()=>{
-      var date = new Date().getDate();
-      var month = new Date().getMonth() + 1;
-      var year = new Date().getFullYear();
-      return date + '-' + month + '-' + year;//format: d-m-y;
-    };
-  
-    // Function to read existing scores from the file
-    const readScores = (filePath) => {
-      try {
-        const data = fs.readFileSync(filePath, 'utf8');
-        if (!data.trim()) {
-          return []; // File is empty, return empty array
-        }
-        const scores = data.trim().split('\n\n').map(entry => {
-          const lines = entry.split('\n');
-          if (lines.length !== 3) {
-            return null; // Invalid entry format
-          }
-          const score = parseInt(lines[0].split(': ')[1]);
-          const date = lines[1].split(': ')[1];
-          const time = lines[2].split(': ')[1];
-          return { score, date, time };
-        }).filter(entry => entry !== null);
-        return scores;
-      } catch (err) {
-        if (err.code === 'ENOENT') {
-          return []; // File doesn't exist yet, return empty array
-        } else {
-          throw err;
-        }
-      }
-    };
-  
-    // Function to write scores to the file
-  const writeScores = (filePath, scores) => {
-    const data = scores.map(({ score, date, time }) => `Score: ${score}\nDate: ${date}\nTime: ${time}`).join('\n\n') + '\n\n';
-    fs.writeFileSync(filePath, data, 'utf8');
-  };
-  
-  // Function to get only the values of scores, dates, and times
-  const getScoreValues = (scores) => {
-    return scores.map(({ score, date, time }) => ({ score, date, time }));
-  };
-  
-  // New score to add with separate date and time
-  const newScore = { score: userScore, date: getCurrentDate(), time: userTime };
-  
-  const filePath = file;
-  
-  // Read existing scores
-  const existingScores = readScores(filePath);
-  
-  // Display existing score values
-  // const existingValues = getScoreValues(existingScores);
-  // console.log('Existing score values:');
-  // console.log(existingValues);
-  
-  // Add the new score
-  existingScores.push(newScore);
-  
-  // Write updated scores back to the file
-  writeScores(filePath, existingScores);
-  
-  // Read and display updated score values
-  const updatedScores = readScores(filePath);
-  const updatedValues = getScoreValues(updatedScores);
-  // console.log('Updated score values:');
-  // console.log(updatedValues);
-  
-  
-    return(
-      updatedValues
-    )
-  };
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-  export default SaveUserData;
+// Function to handle everything: add score, update storage, and return the updated array
+export const SaveUserData = async (score, time) => {
+  try {
+    // Get the current date in the format "d-m-y"
+    const getCurrentDate = () => {
+      const date = new Date().getDate();
+      const month = new Date().getMonth() + 1;
+      const year = new Date().getFullYear();
+      return date + '-' + month + '-' + year; // Format: d-m-y
+    };
+
+    const date = getCurrentDate(); // Generate the current date
+
+    // Read existing scores from AsyncStorage
+    const readScores = async () => {
+      const jsonValue = await AsyncStorage.getItem('@scores');
+      return jsonValue != null ? JSON.parse(jsonValue) : []; // Return an array of scores or an empty array
+    };
+
+    // Write scores to AsyncStorage
+    const writeScores = async (newScores) => {
+      const jsonValue = JSON.stringify(newScores);
+      await AsyncStorage.setItem('@scores', jsonValue); // Store the scores array as a JSON string
+    };
+
+    // Add the new score to the array and return the updated array
+    const existingScores = await readScores();
+    const newScore = { score, date, time };
+    existingScores.push(newScore); // Add the new score to the existing array
+    await writeScores(existingScores); // Save the updated array back to AsyncStorage
+
+    return existingScores; // Return the updated array of scores
+  } catch (e) {
+    console.error('Error handling scores:', e);
+    return []; // Return an empty array if something goes wrong
+  }
+};
+
+export const clearStorage = async () => {
+  try {
+    await AsyncStorage.clear();
+    console.log('AsyncStorage has been cleared');
+  } catch (e) {
+    console.error('Failed to clear AsyncStorage:', e);
+  }
+};

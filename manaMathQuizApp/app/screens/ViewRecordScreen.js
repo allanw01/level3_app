@@ -1,6 +1,10 @@
 import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
-import { useState } from 'react';
+import { StyleSheet, Text, View, TouchableOpacity, Image, FlatList } from 'react-native';
+import { useState, useEffect } from 'react';
+
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+import { clearStorage } from '../components/SaveScores';
 
 import { StackActions } from '@react-navigation/native';
 
@@ -10,6 +14,36 @@ import { Ionicons } from '@expo/vector-icons';
 import { FontAwesome5 } from '@expo/vector-icons';
 
 function ViewRecordScreen( props ) {
+
+  const [userData, setUserData] = useState([]);
+
+  // Function to retrieve data from AsyncStorage
+  const getStoredData = async () => {
+    try {
+      const jsonValue = await AsyncStorage.getItem('@scores');
+      const storedData = jsonValue != null ? JSON.parse(jsonValue) : [];
+
+      // Reverse the array to show the last item first (Shows the recent scores first)
+      updateStoredData = storedData.reverse();
+      
+      setUserData(updateStoredData);
+    } catch (e) {
+      console.error('Failed to retrieve data from AsyncStorage:', e);
+    }
+  };
+
+  useEffect(() => {
+    getStoredData(); // Fetch data when the component mounts
+  }, []);
+
+  // Render each item in the FlatList
+  const renderItem = ({ item }) => (
+    <View style={styles.row}>
+      <Text style={styles.column}>{item.date}</Text>
+      <Text style={styles.column}>{item.score}</Text>
+      <Text style={styles.column}>{item.time}</Text>
+    </View>
+  );
 
   return (
     <View style={styles.container}>
@@ -34,7 +68,7 @@ function ViewRecordScreen( props ) {
 
 
       <View style={styles.statsBoard}>
-        <View style={styles.text}>
+        {/* <View style={styles.text}>
           <Text>7/10</Text>
           <Text>7/10</Text>
           <Text>7/10</Text>
@@ -49,7 +83,19 @@ function ViewRecordScreen( props ) {
         <View style={styles.text}>
           <Text>10-21-22</Text>
           <Text>10-21-02</Text>
-        </View>
+        </View> */}
+        <FlatList
+          data={userData}
+          renderItem={renderItem}
+          keyExtractor={(item, index) => index.toString()}
+          ListHeaderComponent={
+            <View style={styles.boardHeader}>
+              <Text style={styles.column}>Date</Text>
+              <Text style={styles.column}>Score</Text>
+              <Text style={styles.column}>Time</Text>
+          </View>
+        }
+      />
       </View>
     
     
@@ -117,7 +163,24 @@ const styles = StyleSheet.create({
     height:'100%',
     width:3,
     backgroundColor: '#FFF'
-  }
+  },
+
+  boardHeader: {
+    flexDirection: 'row',
+    paddingBottom: 8,
+    borderBottomWidth: 1,
+    borderBottomColor: '#ccc',
+  },
+  row: {
+    flexDirection: 'row',
+    paddingVertical: 8,
+    borderBottomWidth: 1,
+    borderBottomColor: '#eee',
+  },
+  column: {
+    flex: 1,
+    textAlign: 'center',
+  },
 
 });
 

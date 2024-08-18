@@ -8,6 +8,10 @@ import { complexAlgebraData } from "../config/quizData";
 
 import Quiz from "../components/QuizButton.js";
 
+import {SaveUserData} from '../components/SaveScores';
+
+import {AsyncStorage} from 'react-native';
+
 import { FontAwesome5 } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
 
@@ -41,9 +45,20 @@ function QuizScreen( { navigation } ) {
     return () => clearInterval(timerRef.current);
   }, [timerIsRunning]);
 
+  const saveAndReturnScores = async () => {
+    const userScore = score;
+    const userTime = formatTime(time);
+
+    const updatedScores = await SaveUserData(userScore, userTime);
+    console.log(updatedScores); // This will log the updated array of scores
+  };
+
+
   // Before Navigating, makes sure the score state is updated properly
   useEffect(() => {
     if (shouldNavigate) {
+      // SaveUserData(userScore = score, userTime = time, fil ='../userData/complex.txt')
+      saveAndReturnScores()
       // Perform navigation after state update
       navigation.dispatch(
         StackActions.replace("Finish", { score: score , time: formatTime(time)})
@@ -71,7 +86,7 @@ function QuizScreen( { navigation } ) {
     const getMinutes = `0${minutes % 60}`.slice(-2);
     const getHours = `0${Math.floor(time / 3600)}`.slice(-2);
 
-    return `${getHours} : ${getMinutes} : ${getSeconds}`;
+    return `${getHours}:${getMinutes}:${getSeconds}`;
   };
 
   // Running the Quiz
