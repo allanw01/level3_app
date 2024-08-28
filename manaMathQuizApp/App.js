@@ -2,6 +2,7 @@ import HomeScreen from './app/screens/HomeScreen';
 import QuizScreen from './app/screens/QuizScreen';
 import FinishScreen from './app/screens/FinishScreen';
 import ViewRecordScreen from './app/screens/ViewRecordScreen';
+import ReviewScreen from './app/screens/ReviewScreen';
 
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
@@ -29,6 +30,10 @@ export default function App() {
         <Stack.Screen 
           name="View Record"
           component={ViewRecordScreen}
+        />
+        <Stack.Screen 
+          name="Review Answers"
+          component={ReviewScreen}
         />
       </Stack.Navigator>
     </NavigationContainer>

@@ -50,7 +50,7 @@ function FinishScreen( { navigation, route } ) {
             {/* <QuickLinkButtons text='Share' imgSource ={require('../assets/quickLinkIcons/share.png')}/> */}
           </View>
           <View style={styles.quickLinksRow}>
-            <QuickLinkButtons text='Review' imgSource ={require('../assets/quickLinkIcons/review_answers.png')}/>
+            <QuickLinkButtons text='Review' imgSource ={require('../assets/quickLinkIcons/review_answers.png')} onPress={() => navigation.navigate("Review Answers")}/>
             <QuickLinkButtons text='   Share   ' imgSource ={require('../assets/quickLinkIcons/share.png')}/>
           </View>
         </View>
