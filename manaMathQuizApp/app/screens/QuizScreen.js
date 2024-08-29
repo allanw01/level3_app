@@ -10,7 +10,7 @@ import Quiz from "../components/QuizButton.js";
 
 import {SaveUserData} from '../components/SaveScores';
 
-import {AsyncStorage} from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { FontAwesome5 } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
@@ -24,6 +24,8 @@ function QuizScreen( { navigation } ) {
 
   // Variables for the score Tracker:
   const [score, setScore] = useState(0);
+
+  const [userAnswers, setUserAnswers] = useState([]);
 
   // Variables for the quiz timer:
   const [time, setTime] = useState(0); // State to keep track of the elapsed time in seconds
@@ -93,7 +95,22 @@ function QuizScreen( { navigation } ) {
   const handleAnswer = (selectedAnswer) => {
     const answer = complexAlgebraData[currentQuestion]?.answer;
     const nextQuestion = currentQuestion + 1;
-    const newScore = score
+
+
+    // Saving User Answers so that it can be used for the Review Answer Screen
+    const userQuestionAnswer = [complexAlgebraData[currentQuestion]?.question, selectedAnswer, answer ];
+    console.log(userQuestionAnswer)
+
+    userAnswers.push(userQuestionAnswer);
+    setUserAnswers(userAnswers);
+    console.log(userAnswers);
+
+    const writeScores = async (tempUserAnswers) => {
+      const jsonValue = JSON.stringify(tempUserAnswers);
+      await AsyncStorage.setItem('@reviewAnswers', jsonValue); // Store the scores array as a JSON string
+    };
+    
+    // Checking the answers and switching questions or screens
     if(answer === selectedAnswer){
       // setScore((prevScore) => prevScore + 1);
       setScore(score+1);
@@ -104,6 +121,7 @@ function QuizScreen( { navigation } ) {
       setCurrentQuestion(nextQuestion);
     } else {
       handleStop()
+      writeScores(userAnswers);
       setShouldNavigate(true);
     }
   }
