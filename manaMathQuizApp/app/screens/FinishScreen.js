@@ -1,18 +1,52 @@
 import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
-import { useState } from 'react';
+import { StyleSheet, Text, View, TouchableOpacity, Image, ActivityIndicator } from 'react-native';
+import { useState, useEffect } from 'react';
 
 import { StackActions } from '@react-navigation/native';
 
+
 import QuickLinkButtons from '../components/QuickLinkButton';
+import getStoredData from '../components/GrabStoredData';
+import {createAndSharePDF} from '../components/ExportResults';
 
 import { Ionicons } from '@expo/vector-icons';
 import { FontAwesome5 } from '@expo/vector-icons';
 
 function FinishScreen( { navigation, route } ) {
-  
+
+  const [loading, setLoading] = useState(true);
+  const [exportData, setExportData] =useState([])
   let score = route.params.score;
   let time = route.params.time;
+
+  const fetchdata = async () => {
+    try {
+      const userAnswers = await getStoredData('@reviewAnswers');
+      setExportData(userAnswers);
+    } catch (error) {
+      console.error('Failed to fetch data:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+  
+  useEffect(() => {
+    fetchdata();
+  }, []);
+  
+  const handleGeneratePDF = () => {
+    console.log(time)
+    createAndSharePDF(exportData, score, time);
+  };
+
+  if (loading) {
+    return (
+      <View style={styles.container}>
+        <ActivityIndicator size="large" color="#0000ff" />
+        <Text>Loading data...</Text>
+      </View>
+    );
+  }
 
   return (
     <View style={styles.container}>
@@ -46,7 +80,7 @@ function FinishScreen( { navigation, route } ) {
           </View>
           <View style={styles.quickLinksRow}>
             <QuickLinkButtons text='   Home    ' imgSource ={require('../assets/quickLinkIcons/home.png')} onPress={() => navigation.navigate("Home")}/>
-            <QuickLinkButtons text='Export' imgSource ={require('../assets/quickLinkIcons/export.png')}/>
+            <QuickLinkButtons text='Export' imgSource ={require('../assets/quickLinkIcons/export.png')} onPress={()=>handleGeneratePDF()} />
             {/* <QuickLinkButtons text='Share' imgSource ={require('../assets/quickLinkIcons/share.png')}/> */}
           </View>
           <View style={styles.quickLinksRow}>
