@@ -1,9 +1,11 @@
 import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, Modal, Alert } from 'react-native';
 import { useState } from 'react';
 
 import HomeBtn from "../components/HomeButton";
 import PBStats from "../components/PBStats";
+
+import { clearStorage } from '../components/SaveScores';
 
 import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
 import { Ionicons } from '@expo/vector-icons';
@@ -11,6 +13,18 @@ import { Ionicons } from '@expo/vector-icons';
 import { complexAlgebraData, integrationData, differentiationData } from "../config/quizData";
 
 function HomeScreen( { navigation } ) {
+
+  const [modalVisible, setModalVisible] = useState(true);
+
+  const clearDataAlert = () =>
+    Alert.alert('Are sure you want to erase all Data?', 'This action cannot be undone', [
+      {
+        text: 'Cancel',
+        onPress: () => console.log('Cancel Pressed'),
+        style: 'cancel',
+      },
+      {text: 'Proceed', onPress: () => {setModalVisible(false); clearStorage();}},
+    ]);
 
   const getRandomQuestions = (arr, num) => {
     // Shuffle the array
@@ -27,10 +41,40 @@ function HomeScreen( { navigation } ) {
 
   return (
     <View style={styles.container}>
+
+      <Modal style={{height: 300, width: 300}}
+        visible={modalVisible}
+        onRequestClose={()=> setModalVisible(false)}
+        animationType="slide" 
+        presentationStyle='formSheet'
+      >
+        <View style={styles.modalContainer}>
+          <View style={styles.modalContent}>
+
+            <Text style={styles.modalTitleText}>Settings</Text>
+            <Text style={styles.modalText}>Do you want clear view record Data? ACTION CANNOT BE UNDONE</Text>
+
+            <View style={styles.modalButtonContainer}>
+              <TouchableOpacity  onPress={() => clearDataAlert()}>
+                <View style={styles.modalButton}>
+                    <Text style={styles.modalButtonText}>Yes</Text>
+                </View>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => setModalVisible(false)}>
+                <View style={styles.modalButton}>
+                    <Text style={styles.modalButtonText} >No</Text>
+                </View>
+              </TouchableOpacity>
+            </View>
+
+          </View>
+        </View>      
+      </Modal>
+      
       
       {/* Header + Settings Button */}
       <View style={styles.header}>
-        <TouchableOpacity onPress={() => console.log("Settings Clciked")}>
+        <TouchableOpacity onPress={() => setModalVisible(true)}>
           <Ionicons style={styles.settingIcon} name="settings-outline" size={32} color="#FFC66C" />
         </TouchableOpacity>
         <Text style={styles.headerText}>MANA MATH</Text>
@@ -71,6 +115,63 @@ const styles = StyleSheet.create({
     backgroundColor: '#172A41',
     alignItems: 'center',
     justifyContent: 'center',
+  },
+
+  modalContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    // backgroundColor: 'rgba(0, 0, 0, 0.1)', 
+    backgroundColor: 'rgba(52, 52, 52, 0.8)',
+    // backgroundColor: 'transparent',
+    
+  },
+  modalContent: {
+    width: 300, // Adjust width
+    height: 200, // Adjust height
+    backgroundColor: 'white',
+    borderRadius: 10,
+    padding: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+
+  modalButtonContainer:{
+    flexDirection:'row',
+    width:'100%',
+    justifyContent:'space-around',
+  },
+
+  modalButton:{
+    width:80,
+    height:50,
+    backgroundColor:'#24A0ED',
+    borderRadius:20,
+    justifyContent:'center',
+    alignItems:'center'
+  },
+
+  modalTitleText:{
+    // color: '#FFF',
+    fontWeight:'bold',
+    fontSize:30,
+    textAlign:'left',
+    marginBottom:20,
+  },
+
+  modalText:{
+    // color: '#FFF',
+    fontWeight:'bold',
+    fontSize:15,
+    textAlign:'left',
+    marginBottom:20,
+  },
+
+  modalButtonText:{
+    // color: '#FFF',
+    fontWeight:'bold',
+    fontSize:15,
+    textAlign:'left',
   },
 
   header:{
