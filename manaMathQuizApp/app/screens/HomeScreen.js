@@ -8,7 +8,22 @@ import PBStats from "../components/PBStats";
 import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
 import { Ionicons } from '@expo/vector-icons';
 
+import { complexAlgebraData, integrationData, differentiationData } from "../config/quizData";
+
 function HomeScreen( { navigation } ) {
+
+  const getRandomQuestions = (arr, num) => {
+    // Shuffle the array
+    const shuffled = arr.sort(() => 0.5 - Math.random());
+    // Get sub-array of first n elements after shuffle
+    return shuffled.slice(0, num);
+  };
+
+  const switchScreen = (arr, scoreSavePath) => {
+    quizQuestions = getRandomQuestions(arr,10)
+    console.log(scoreSavePath)
+    navigation.navigate("Quiz", { quizData: quizQuestions, quizType:scoreSavePath})
+  };
 
   return (
     <View style={styles.container}>
@@ -25,9 +40,9 @@ function HomeScreen( { navigation } ) {
       <View style={styles.viewRecord}>
         <Text style={styles.PBTitle}>Personal Best(100%)</Text>
         <View style={styles.pbStats}>
-          <PBStats text='00:00:00' imgSource ={require('../assets/integration.png')}/>
-          <PBStats text='00:00:00' imgSource ={require('../assets/differentiation.png')}/>
-          <PBStats onPress={() => navigation.navigate("View Record")} text='00:00:00' imgSource ={require('../assets/complexNum.png')}/>
+          <PBStats onPress={() => navigation.navigate("View Record",{quizType:'@intergrationScores'})} text='00:00:00' imgSource ={require('../assets/integration.png')}/>
+          <PBStats onPress={() => navigation.navigate("View Record",{quizType:'@differentiationScores'})} text='00:00:00' imgSource ={require('../assets/differentiation.png')}/>
+          <PBStats onPress={() => navigation.navigate("View Record",{quizType:'@complexScores'})} text='00:00:00' imgSource ={require('../assets/complexNum.png')}/>
         </View>
         <TouchableOpacity onPress={() => console.log("View Record Clicked")}>
           <View style={styles.viewRecordBtn}>
@@ -41,9 +56,9 @@ function HomeScreen( { navigation } ) {
       {/* Home Screen Navigation Buttons */}
       <View style={styles.homeBtn}>
         <HomeBtn onPress={() => console.log("Practice")} text='Practice' imgSource ={require('../assets/practice.png')}/>
-        <HomeBtn onPress={() => console.log("integration")} text='Integration' imgSource ={require('../assets/integration.png')}/>
-        <HomeBtn onPress={() => console.log("Differentiation")} text='Differentiation' imgSource ={require('../assets/differentiation.png')}/>
-        <HomeBtn onPress={() => navigation.navigate("Quiz")} text='Complex Numbers' imgSource ={require('../assets/complexNum.png')}/>
+        <HomeBtn onPress={() => switchScreen(integrationData,'@intergrationScores')} text='Integration' imgSource ={require('../assets/integration.png')}/>
+        <HomeBtn onPress={() => switchScreen(differentiationData,'@differentiationScores')} text='Differentiation' imgSource ={require('../assets/differentiation.png')}/>
+        <HomeBtn onPress={() => switchScreen(complexAlgebraData,'@complexScores')} text='Complex Numbers' imgSource ={require('../assets/complexNum.png')}/>
       </View>
       
     </View>

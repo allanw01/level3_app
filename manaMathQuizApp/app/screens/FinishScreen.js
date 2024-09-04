@@ -9,6 +9,8 @@ import QuickLinkButtons from '../components/QuickLinkButton';
 import getStoredData from '../components/GrabStoredData';
 import {createAndSharePDF} from '../components/ExportResults';
 
+import { complexAlgebraData, integrationData, differentiationData } from "../config/quizData";
+
 import { Ionicons } from '@expo/vector-icons';
 import { FontAwesome5 } from '@expo/vector-icons';
 
@@ -16,8 +18,10 @@ function FinishScreen( { navigation, route } ) {
 
   const [loading, setLoading] = useState(true);
   const [exportData, setExportData] =useState([])
+  const [quizData, setQuizData]=useState([])
   let score = route.params.score;
   let time = route.params.time;
+  let saveScorePath = route.params.quizType
 
   const fetchdata = async () => {
     try {
@@ -33,10 +37,35 @@ function FinishScreen( { navigation, route } ) {
   useEffect(() => {
     fetchdata();
   }, []);
+
+  useEffect(()=>{
+    if (saveScorePath == '@intergrationScores') {
+      setQuizData(integrationData)
+    } else if (saveScorePath == '@complexScores') {
+      setQuizData(complexAlgebraData)
+    } else {
+      setQuizData(differentiationData)
+    }
+  },[]);
   
   const handleGeneratePDF = () => {
     console.log(time)
     createAndSharePDF(exportData, score, time);
+  };
+
+  const getRandomQuestions = (arr, num) => {
+    // Shuffle the array
+    const shuffled = arr.sort(() => 0.5 - Math.random());
+    // Get sub-array of first n elements after shuffle
+    return shuffled.slice(0, num);
+  };
+
+  const handlePlayAgain =() => {
+    const quizQuestions=getRandomQuestions(quizData,10)
+    console.log(quizData)
+    
+    navigation.navigate("Quiz", { quizData: quizQuestions, quizType:saveScorePath})
+  
   };
 
   if (loading) {
@@ -74,7 +103,7 @@ function FinishScreen( { navigation, route } ) {
 
         <View style={styles.quickLinks}>
           <View style={styles.quickLinksRow}>
-            <QuickLinkButtons text='Play Again' imgSource ={require('../assets/quickLinkIcons/play_again.png')} onPress={() => navigation.navigate("Quiz")}/>
+            <QuickLinkButtons text='Play Again' imgSource ={require('../assets/quickLinkIcons/play_again.png')} onPress={() => handlePlayAgain()}/>
             <QuickLinkButtons text='View Record' imgSource ={require('../assets/quickLinkIcons/view_record.png')}/>
             {/* <QuickLinkButtons text='Review Answers' imgSource ={require('../assets/quickLinkIcons/review_answers.png')}/> */}
           </View>

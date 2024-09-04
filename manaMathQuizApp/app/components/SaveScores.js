@@ -5,7 +5,7 @@ import { View, Text, Button, FlatList } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // Function to handle everything: add score, update storage, and return the updated array
-export const SaveUserData = async (score, time) => {
+export const SaveUserData = async (score, time, path) => {
   try {
     // Get the current date in the format "d-m-y"
     const getCurrentDate = () => {
@@ -19,14 +19,14 @@ export const SaveUserData = async (score, time) => {
 
     // Read existing scores from AsyncStorage
     const readScores = async () => {
-      const jsonValue = await AsyncStorage.getItem('@scores');
+      const jsonValue = await AsyncStorage.getItem(path);
       return jsonValue != null ? JSON.parse(jsonValue) : []; // Return an array of scores or an empty array
     };
 
     // Write scores to AsyncStorage
     const writeScores = async (newScores) => {
       const jsonValue = JSON.stringify(newScores);
-      await AsyncStorage.setItem('@scores', jsonValue); // Store the scores array as a JSON string
+      await AsyncStorage.setItem(path, jsonValue); // Store the scores array as a JSON string
     };
 
     // Add the new score to the array and return the updated array

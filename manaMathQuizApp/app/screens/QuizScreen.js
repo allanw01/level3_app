@@ -4,7 +4,7 @@ import { useState, useRef, useEffect } from 'react';
 
 import { StackActions } from '@react-navigation/native';
 
-import { complexAlgebraData } from "../config/quizData";
+import { complexAlgebraData, integrationData, differentiationData } from "../config/quizData";
 
 import Quiz from "../components/QuizButton.js";
 
@@ -15,12 +15,16 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { FontAwesome5 } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
 
-function QuizScreen( { navigation } ) {
+function QuizScreen( { navigation, route } ) {
+
+  let quizData = route.params.quizData;
+  let saveScorePath = route.params.quizType
 
   // Variables for running the quiz:
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [showFinishQuiz, setShowFinishQuiz] = useState(false);
   const [shouldNavigate, setShouldNavigate] = useState(false);
+  // const [saveUserScorePath, setSaveUserScorePath]= useState(saveScorePath)
 
   // Variables for the score Tracker:
   const [score, setScore] = useState(0);
@@ -50,9 +54,10 @@ function QuizScreen( { navigation } ) {
   const saveAndReturnScores = async () => {
     const userScore = score;
     const userTime = formatTime(time);
-
-    const updatedScores = await SaveUserData(userScore, userTime);
-    console.log(updatedScores); // This will log the updated array of scores
+    const saveUserScorePath = saveScorePath
+    console.log(saveUserScorePath)
+    const updatedScores = await SaveUserData(userScore, userTime, saveUserScorePath);
+    // console.log(updatedScores); // This will log the updated array of scores
   };
 
 
@@ -63,7 +68,7 @@ function QuizScreen( { navigation } ) {
       saveAndReturnScores()
       // Perform navigation after state update
       navigation.dispatch(
-        StackActions.replace("Finish", { score: score , time: formatTime(time)})
+        StackActions.replace("Finish", { score: score , time: formatTime(time), quizType:saveScorePath})
       ); 
       setShouldNavigate(false); // Reset the navigation
     }
@@ -91,19 +96,19 @@ function QuizScreen( { navigation } ) {
     return `${getHours}:${getMinutes}:${getSeconds}`;
   };
 
-  // Running the Quiz
+  // Running the Quiz (checking user answers)
   const handleAnswer = (selectedAnswer) => {
-    const answer = complexAlgebraData[currentQuestion]?.answer;
+    const answer = quizData[currentQuestion]?.answer;
     const nextQuestion = currentQuestion + 1;
 
 
     // Saving User Answers so that it can be used for the Review Answer Screen
-    const userQuestionAnswer = [complexAlgebraData[currentQuestion]?.question, selectedAnswer, answer ];
-    console.log(userQuestionAnswer)
+    const userQuestionAnswer = [quizData[currentQuestion]?.question, selectedAnswer, answer ];
+    // console.log(userQuestionAnswer)
 
     userAnswers.push(userQuestionAnswer);
     setUserAnswers(userAnswers);
-    console.log(userAnswers);
+    // console.log(userAnswers);
 
     const writeScores = async (tempUserAnswers) => {
       const jsonValue = JSON.stringify(tempUserAnswers);
@@ -117,7 +122,7 @@ function QuizScreen( { navigation } ) {
       setCurrentQuestion(nextQuestion);
     }
 
-    if(nextQuestion < complexAlgebraData.length) {
+    if(nextQuestion < quizData.length) {
       setCurrentQuestion(nextQuestion);
     } else {
       handleStop()
@@ -132,9 +137,9 @@ function QuizScreen( { navigation } ) {
 
       {/* Header + Back Button */}
       <View style={styles.header}>
-        <TouchableOpacity onPress={() => console.log("Back Button Clciked")}>
+        {/* <TouchableOpacity onPress={() => console.log("Back Button Clciked")}>
         <FontAwesome5 style={styles.backIcon} name="backspace" size={32} color="#ffbb33" />
-        </TouchableOpacity>
+        </TouchableOpacity> */}
         <Text style={styles.headerText}>MANA MATH</Text>
       </View>
 
@@ -146,18 +151,18 @@ function QuizScreen( { navigation } ) {
       </View> :
       <View style={styles.answerButtons}>
         {/* Statistics Pannel */}
-        <View style={styles.statisticsPannel}>
-          <View style={styles.statisticsPanelleft}>
-            <Text style={styles.statisticsPannelText}>Question No. {currentQuestion+1}/10</Text>
-            <Text style={styles.statisticsPannelText}>What is: </Text>
-          </View>
-          
-          <View style={styles.statisticsPannelright}>
+        <View style={styles.statisticsPanel}>
+          <View style={styles.statisticsPanelTop}>
+            <Text style={styles.statisticsPanelText}>Question No. {currentQuestion+1}/10</Text>
             <View style={styles.timer}>
               <Image style={{marginRight:5,paddingBottom:5}} source={require('../assets/clock.png')} />
-              <Text style={styles.statisticsPannelText}>{formatTime(time)}</Text>
+              <Text style={styles.statisticsPanelText}>{formatTime(time)}</Text>
             </View>
-            <Text style={styles.statisticsPannelText}>{complexAlgebraData[currentQuestion]?.question} </Text>
+            {/* <Text style={styles.statisticsPannelText}>What is: </Text> */}
+          </View>
+          
+          <View style={styles.statisticsPanelQuestion}>
+            <Text style={styles.statisticsPanelText}>{quizData[currentQuestion]?.question} </Text>
           </View>
         </View>
 
@@ -165,7 +170,7 @@ function QuizScreen( { navigation } ) {
         
         {/* Mutichoice Answer Buttons */}
         </View>
-        {complexAlgebraData[currentQuestion]?.options.map((item, index) => {
+        {quizData[currentQuestion]?.options.map((item, index) => {
             return <Quiz key={index} text={item} onPress={()=> handleAnswer(item)}/>
           })}
       </View>
@@ -220,46 +225,52 @@ const styles = StyleSheet.create({
     textAlign:'left',
   },
 
-  statisticsPannel:{
-    flexDirection:'row',
+  statisticsPanel:{
+    flexDirection:'column',
     justifyContent: 'center',
     alignItems:'center',
     width:329,
-    height:112,
+    height:130,
     backgroundColor:'#FFC700',
     borderRadius:20,
     marginBottom:10,
   },
 
-  statisticsPannelleft:{
-    flexDirection:'column',
-    justifyContent:'space-around',
+  statisticsPanelTop:{
+    flexDirection:'row',
+    width:'90%',
+    justifyContent:'space-evenly',
+    alignItems:'center',
+    // marginLeft:20,
+    // marginRight:20,
+    // paddingLeft:20,
+    // paddingRight:20,
+  },
+
+  statisticsPanelQuestion:{
+    width:'80%',
+    // justifyContent:'flex-start',
     // alignItems:'center',
     // marginLeft:20,
-    marginRight:20,
+    // marginRight:20,
 
   },
+
   timer:{
     flexDirection:'row',
     justifyContent:'center',
     alignItems:'center',
   },
 
-  statisticsPannelright:{
-    flexDirection:'column',
-    justifyContent:'space-around',
-    // alignItems:'center',
-    marginLeft:20,
-    // marginRight:20,
-  },
+  
 
-  statisticsPannelText:{
+  statisticsPanelText:{
     color: 'black',
     fontWeight:'bold',
     fontSize:16,
     paddingTop:10,
     paddingBottom:10,
-    // textAlign:'left',
+    textAlign:'left',
   },
 
 

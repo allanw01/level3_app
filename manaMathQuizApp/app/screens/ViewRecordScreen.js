@@ -13,14 +13,16 @@ import PBStats from '../components/PBStats';
 import { Ionicons } from '@expo/vector-icons';
 import { FontAwesome5 } from '@expo/vector-icons';
 
-function ViewRecordScreen( props ) {
+function ViewRecordScreen( { navigation, route } ) {
+
+  let saveScorePath = route.params.quizType
 
   const [userData, setUserData] = useState([]);
 
   // Function to retrieve data from AsyncStorage
   const getStoredData = async () => {
     try {
-      const jsonValue = await AsyncStorage.getItem('@scores');
+      const jsonValue = await AsyncStorage.getItem(saveScorePath);
       const storedData = jsonValue != null ? JSON.parse(jsonValue) : [];
 
       // Reverse the array to show the last item first (Shows the recent scores first)
