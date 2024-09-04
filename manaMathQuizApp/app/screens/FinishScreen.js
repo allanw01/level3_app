@@ -19,6 +19,8 @@ function FinishScreen( { navigation, route } ) {
   const [loading, setLoading] = useState(true);
   const [exportData, setExportData] =useState([])
   const [quizData, setQuizData]=useState([])
+  const [viewRecordName, setViewRecordName] = useState()
+  
   let score = route.params.score;
   let time = route.params.time;
   let saveScorePath = route.params.quizType
@@ -41,10 +43,13 @@ function FinishScreen( { navigation, route } ) {
   useEffect(()=>{
     if (saveScorePath == '@intergrationScores') {
       setQuizData(integrationData)
+      setViewRecordName('Intergration')
     } else if (saveScorePath == '@complexScores') {
       setQuizData(complexAlgebraData)
+      setViewRecordName('Complex Numbers')
     } else {
       setQuizData(differentiationData)
+      setViewRecordName('Differentiation')
     }
   },[]);
   
@@ -104,7 +109,7 @@ function FinishScreen( { navigation, route } ) {
         <View style={styles.quickLinks}>
           <View style={styles.quickLinksRow}>
             <QuickLinkButtons text='Play Again' imgSource ={require('../assets/quickLinkIcons/play_again.png')} onPress={() => handlePlayAgain()}/>
-            <QuickLinkButtons text='View Record' imgSource ={require('../assets/quickLinkIcons/view_record.png')}/>
+            <QuickLinkButtons text='View Record' imgSource ={require('../assets/quickLinkIcons/view_record.png')} onPress={() => navigation.navigate("View Record",{quizType:saveScorePath,name:viewRecordName})}/>
             {/* <QuickLinkButtons text='Review Answers' imgSource ={require('../assets/quickLinkIcons/review_answers.png')}/> */}
           </View>
           <View style={styles.quickLinksRow}>
@@ -114,7 +119,7 @@ function FinishScreen( { navigation, route } ) {
           </View>
           <View style={styles.quickLinksRow}>
             <QuickLinkButtons text='Review' imgSource ={require('../assets/quickLinkIcons/review_answers.png')} onPress={() => navigation.navigate("Review Answers")}/>
-            <QuickLinkButtons text='   Share   ' imgSource ={require('../assets/quickLinkIcons/share.png')}/>
+            <QuickLinkButtons text='   Share   ' imgSource ={require('../assets/quickLinkIcons/share.png')} onPress={()=>handleGeneratePDF()}/>
           </View>
         </View>
       </View>

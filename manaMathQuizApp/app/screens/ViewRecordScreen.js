@@ -16,8 +16,11 @@ import { FontAwesome5 } from '@expo/vector-icons';
 function ViewRecordScreen( { navigation, route } ) {
 
   let saveScorePath = route.params.quizType
+  let recordName = route.params.name
 
   const [userData, setUserData] = useState([]);
+ 
+  
 
   // Function to retrieve data from AsyncStorage
   const getStoredData = async () => {
@@ -33,7 +36,7 @@ function ViewRecordScreen( { navigation, route } ) {
       console.error('Failed to retrieve data from AsyncStorage:', e);
     }
   };
-
+  
   useEffect(() => {
     getStoredData(); // Fetch data when the component mounts
   }, []);
@@ -58,7 +61,7 @@ function ViewRecordScreen( { navigation, route } ) {
       </View>
 
       <View style={styles.viewRecord}>
-        <Text style={styles.PBTitle}>Differentiation Record</Text>
+        <Text style={styles.PBTitle}>{recordName} Record</Text>
         <View style={styles.pbStats}>
           <PBStats text='Score' imgSource ={require('../assets/integration.png')}/>
           <PBStats text='Date' imgSource ={require('../assets/differentiation.png')}/>

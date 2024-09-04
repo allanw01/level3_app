@@ -40,9 +40,9 @@ function HomeScreen( { navigation } ) {
       <View style={styles.viewRecord}>
         <Text style={styles.PBTitle}>Personal Best(100%)</Text>
         <View style={styles.pbStats}>
-          <PBStats onPress={() => navigation.navigate("View Record",{quizType:'@intergrationScores'})} text='00:00:00' imgSource ={require('../assets/integration.png')}/>
-          <PBStats onPress={() => navigation.navigate("View Record",{quizType:'@differentiationScores'})} text='00:00:00' imgSource ={require('../assets/differentiation.png')}/>
-          <PBStats onPress={() => navigation.navigate("View Record",{quizType:'@complexScores'})} text='00:00:00' imgSource ={require('../assets/complexNum.png')}/>
+          <PBStats onPress={() => navigation.navigate("View Record",{quizType:'@intergrationScores', name:'Intergration'})} text='00:00:00' imgSource ={require('../assets/integration.png')}/>
+          <PBStats onPress={() => navigation.navigate("View Record",{quizType:'@differentiationScores', name:'Differentiation'})} text='00:00:00' imgSource ={require('../assets/differentiation.png')}/>
+          <PBStats onPress={() => navigation.navigate("View Record",{quizType:'@complexScores',name:'Complex Number'})} text='00:00:00' imgSource ={require('../assets/complexNum.png')}/>
         </View>
         <TouchableOpacity onPress={() => console.log("View Record Clicked")}>
           <View style={styles.viewRecordBtn}>
