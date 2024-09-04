@@ -86,7 +86,6 @@ function FinishScreen( { navigation, route } ) {
     <View style={styles.container}>
       <View style={styles.header}>
         <TouchableOpacity onPress={() => console.log("Back Button Clciked")}>
-        <FontAwesome5 style={styles.backIcon} name="backspace" size={32} color="#ffbb33" />
         </TouchableOpacity>
         <Text style={styles.headerText}>MANA MATH</Text>
       </View>
