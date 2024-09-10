@@ -14,7 +14,7 @@ import { complexAlgebraData, integrationData, differentiationData } from "../con
 
 function HomeScreen( { navigation } ) {
 
-  const [modalVisible, setModalVisible] = useState(true);
+  const [modalVisible, setModalVisible] = useState(false);
 
   const clearDataAlert = () =>
     Alert.alert('Are sure you want to erase all Data?', 'This action cannot be undone', [
@@ -82,24 +82,17 @@ function HomeScreen( { navigation } ) {
     
       {/* View Record Pannel */}
       <View style={styles.viewRecord}>
-        <Text style={styles.PBTitle}>Personal Best(100%)</Text>
+        <Text style={styles.PBTitle}>View Your Record:</Text>
         <View style={styles.pbStats}>
-          <PBStats onPress={() => navigation.navigate("View Record",{quizType:'@intergrationScores', name:'Intergration'})} text='00:00:00' imgSource ={require('../assets/integration.png')}/>
-          <PBStats onPress={() => navigation.navigate("View Record",{quizType:'@differentiationScores', name:'Differentiation'})} text='00:00:00' imgSource ={require('../assets/differentiation.png')}/>
-          <PBStats onPress={() => navigation.navigate("View Record",{quizType:'@complexScores',name:'Complex Number'})} text='00:00:00' imgSource ={require('../assets/complexNum.png')}/>
-        </View>
-        <TouchableOpacity onPress={() => console.log("View Record Clicked")}>
-          <View style={styles.viewRecordBtn}>
-            <Text style={styles.viewRecordText}>View Record</Text>
-            <FontAwesome6 style={styles.viewRecordIcon} name="arrow-right-to-bracket" size={32} color="black" />
-            <FontAwesome6 style={styles.viewRecordIcon} name="arrow-right-to-bracket" size={32} color="black" />
-          </View>
-        </TouchableOpacity>      
+          <PBStats onPress={() => navigation.navigate("View Record",{quizType:'@intergrationScores', name:'Intergration'})} text='Intergration' imgSource ={require('../assets/integration.png')}/>
+          <PBStats onPress={() => navigation.navigate("View Record",{quizType:'@differentiationScores', name:'Differentiation'})} text='Differentiation' imgSource ={require('../assets/differentiation.png')}/>
+          <PBStats onPress={() => navigation.navigate("View Record",{quizType:'@complexScores',name:'Complex Number'})} text='Complex Number' imgSource ={require('../assets/complexNum.png')}/>
+        </View>     
       </View>
 
       {/* Home Screen Navigation Buttons */}
       <View style={styles.homeBtn}>
-        <HomeBtn onPress={() => console.log("Practice")} text='Practice' imgSource ={require('../assets/practice.png')}/>
+        {/* <HomeBtn onPress={() => console.log("Practice")} text='Practice' imgSource ={require('../assets/practice.png')}/> */}
         <HomeBtn onPress={() => switchScreen(integrationData,'@intergrationScores')} text='Integration' imgSource ={require('../assets/integration.png')}/>
         <HomeBtn onPress={() => switchScreen(differentiationData,'@differentiationScores')} text='Differentiation' imgSource ={require('../assets/differentiation.png')}/>
         <HomeBtn onPress={() => switchScreen(complexAlgebraData,'@complexScores')} text='Complex Numbers' imgSource ={require('../assets/complexNum.png')}/>
@@ -205,24 +198,6 @@ const styles = StyleSheet.create({
   pbStats:{
     flexDirection:'row',
     justifyContent:'space-around'
-  },
-  viewRecordBtn:{
-    flexDirection:'row',
-    justifyContent:'flex-end',
-    alignItems:'center',
-    padding:10,
-  },
-  viewRecordText:{
-    fontWeight:'bold',
-    fontSize:13,
-    textAlign:'left',
-    paddingRight:10,
-  },
-  viewRecordIcon:{
-    paddingRight:10,
-  },
-  homeBtn:{
-    
   },
 });
 

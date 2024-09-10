@@ -13,7 +13,7 @@ const ReviewAnswerBtn=({text, direction, onPress}) => {
                 <Text style={styles.buttonText}>{ text }</Text>
                 <View style={styles.iconWrapper}>
                   <AntDesign style={styles.icon} name= {direction} size={32} color="black" />
-                  <AntDesign style={styles.icon} name= {direction} size={32} color="black" />
+                  {/* <AntDesign style={styles.icon} name= {direction} size={32} color="black" /> */}
                 </View>
             </View>
         </TouchableOpacity>

@@ -53,6 +53,7 @@ function ReviewScreen( props ) {
       setQuestionNumber(nextQuestion)
     } else {
       console.log('last question')
+      setQuestionNumber(0)
     }
   };
   const handleBack = () => {
@@ -62,6 +63,7 @@ function ReviewScreen( props ) {
       setQuestionNumber(nextQuestion)
     } else {
       console.log('first question')
+      setQuestionNumber(9)
     }
   };
 
