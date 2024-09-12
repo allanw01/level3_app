@@ -6,6 +6,7 @@ import HomeBtn from "../components/HomeButton";
 import PBStats from "../components/PBStats";
 
 import { clearStorage } from '../components/SaveScores';
+import colours from '../config/colours';
 
 import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
 import { Ionicons } from '@expo/vector-icons';
@@ -52,31 +53,36 @@ function HomeScreen( { navigation } ) {
           <View style={styles.modalContent}>
 
             <Text style={styles.modalTitleText}>Settings</Text>
-            <Text style={styles.modalText}>Do you want clear view record Data? ACTION CANNOT BE UNDONE</Text>
+            
 
-            <View style={styles.modalButtonContainer}>
+            <View style={styles.modalButtonOptions}>
+              <Text style={styles.modalText}>Do you want clear view {'\n'}record Data?</Text>
               <TouchableOpacity  onPress={() => clearDataAlert()}>
-                <View style={styles.modalButton}>
-                    <Text style={styles.modalButtonText}>Yes</Text>
-                </View>
-              </TouchableOpacity>
-              <TouchableOpacity onPress={() => setModalVisible(false)}>
-                <View style={styles.modalButton}>
-                    <Text style={styles.modalButtonText} >No</Text>
+                <View style={styles.modalButtonClear}>
+                    <Text style={styles.modalButtonText}>Clear</Text>
                 </View>
               </TouchableOpacity>
             </View>
+            <TouchableOpacity onPress={() => setModalVisible(false)}>
+                <View style={styles.modalButton}>
+                    <Text style={styles.modalButtonText} >Close</Text>
+                </View>
+            </TouchableOpacity>
 
           </View>
         </View>      
       </Modal>
       
-      
-      {/* Header + Settings Button */}
-      <View style={styles.header}>
+      <View style={styles.settingsBtn}>
         <TouchableOpacity onPress={() => setModalVisible(true)}>
           <Ionicons style={styles.settingIcon} name="settings-outline" size={32} color="#FFC66C" />
         </TouchableOpacity>
+      </View>
+      {/* Header + Settings Button */}
+      <View style={styles.header}>
+        {/* <TouchableOpacity onPress={() => setModalVisible(true)}>
+          <Ionicons style={styles.settingIcon} name="settings-outline" size={32} color="#FFC66C" />
+        </TouchableOpacity> */}
         <Text style={styles.headerText}>MANA MATH</Text>
       </View>
     
@@ -105,7 +111,7 @@ function HomeScreen( { navigation } ) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#172A41',
+    backgroundColor: colours.primary,
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -114,14 +120,11 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    // backgroundColor: 'rgba(0, 0, 0, 0.1)', 
     backgroundColor: 'rgba(52, 52, 52, 0.8)',
-    // backgroundColor: 'transparent',
-    
   },
   modalContent: {
-    width: 300, // Adjust width
-    height: 200, // Adjust height
+    width: 320, // Adjust width
+    height: 300, // Adjust height
     backgroundColor: 'white',
     borderRadius: 10,
     padding: 20,
@@ -129,19 +132,31 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
 
-  modalButtonContainer:{
+  modalButtonOptions:{
     flexDirection:'row',
     width:'100%',
     justifyContent:'space-around',
+    marginTop:10,
+    marginBottom:10,
+  },
+
+  modalButtonClear:{
+    width:80,
+    height:50,
+    backgroundColor:'#fc0d0d',
+    borderRadius:20,
+    justifyContent:'center',
+    alignItems:'center'
   },
 
   modalButton:{
-    width:80,
+    width:200,
     height:50,
     backgroundColor:'#24A0ED',
     borderRadius:20,
     justifyContent:'center',
-    alignItems:'center'
+    alignItems:'center',
+    marginTop:30,
   },
 
   modalTitleText:{
@@ -167,6 +182,10 @@ const styles = StyleSheet.create({
     textAlign:'left',
   },
 
+  settingsBtn:{
+    marginLeft:300,
+  },
+
   header:{
     marginBottom:60,
   },
@@ -184,7 +203,7 @@ const styles = StyleSheet.create({
     width:329,
     height:166,
     justifyContent: 'center',
-    backgroundColor:'#FFC700',
+    backgroundColor:  colours.board,
     borderRadius:20,
     marginBottom:10,
     
