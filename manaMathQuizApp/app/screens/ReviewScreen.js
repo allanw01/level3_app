@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 
 import ReviewAnswerBtn from '../components/ReviewAnswerButton';
 import getStoredData from '../components/GrabStoredData';
+import colours from '../config/colours';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -118,7 +119,7 @@ function ReviewScreen( props ) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#172A41',
+    backgroundColor: colours.primary,
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -143,7 +144,7 @@ const styles = StyleSheet.create({
     flexDirection:'row',
     justifyContent: 'space-between',
     alignItems:'center',
-    backgroundColor:'#FFC700',
+    backgroundColor:colours.board,
     borderRadius:20,
     marginBottom:10,
     padding:40,
@@ -171,7 +172,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     height:280,
     width:289,
-    backgroundColor:'#395D89',
+    backgroundColor:colours.secondary,
     borderRadius:20,
     padding:20,
   },

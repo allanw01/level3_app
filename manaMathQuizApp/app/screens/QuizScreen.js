@@ -9,6 +9,7 @@ import { complexAlgebraData, integrationData, differentiationData } from "../con
 import Quiz from "../components/QuizButton.js";
 
 import {SaveUserData} from '../components/SaveScores';
+import colours from '../config/colours';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -185,7 +186,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#172A41',
+    backgroundColor: colours.primary,
   },
 
   header:{
@@ -231,7 +232,7 @@ const styles = StyleSheet.create({
     alignItems:'center',
     width:329,
     height:130,
-    backgroundColor:'#FFC700',
+    backgroundColor: colours.board,
     borderRadius:20,
     marginBottom:10,
   },

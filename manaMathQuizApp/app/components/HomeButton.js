@@ -2,6 +2,8 @@ import React from "react";
 import { View,Text, StyleSheet, Touchable, TouchableOpacity, Image } from "react-native";
 // import { Image } from 'expo-image';
 
+import colours from "../config/colours";
+
 import { FontAwesome5 } from '@expo/vector-icons';
 
 
@@ -23,7 +25,7 @@ const styles = StyleSheet.create({
         borderRadius:20,
         height: 60,
         width:289,
-        backgroundColor:'#395D89',
+        backgroundColor: colours.secondary,
         justifyContent:'space-between',
         alignItems:'center',
         padding:10,

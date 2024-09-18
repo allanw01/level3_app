@@ -10,6 +10,8 @@ import { StackActions } from '@react-navigation/native';
 
 import PBStats from '../components/PBStats';
 
+import colours from '../config/colours';
+
 import { Ionicons } from '@expo/vector-icons';
 import { FontAwesome5 } from '@expo/vector-icons';
 
@@ -110,7 +112,7 @@ function ViewRecordScreen( { navigation, route } ) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#172A41',
+    backgroundColor: colours.primary,
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -133,7 +135,7 @@ const styles = StyleSheet.create({
     width:329,
     height:112,
     justifyContent: 'center',
-    backgroundColor:'#FFC700',
+    backgroundColor: colours.board,
     borderRadius:20,
     marginBottom:10,
     
@@ -155,7 +157,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     height:319,
     width:289,
-    backgroundColor:'#395D89',
+    backgroundColor: colours.secondary,
     borderRadius:20,
   },
 

@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, TouchableOpacity, Image, ActivityIndicator } fr
 import { useState, useEffect } from 'react';
 
 import { StackActions } from '@react-navigation/native';
-
+import colours from '../config/colours';
 
 import QuickLinkButtons from '../components/QuickLinkButton';
 import getStoredData from '../components/GrabStoredData';
@@ -130,7 +130,7 @@ function FinishScreen( { navigation, route } ) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#172A41',
+    backgroundColor: colours.primary,
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -150,7 +150,7 @@ const styles = StyleSheet.create({
   },
   
   wrapper:{
-    backgroundColor: '#172A41',
+    backgroundColor: colours.primary,
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -161,7 +161,7 @@ const styles = StyleSheet.create({
     alignItems:'center',
     width:329,
     height:112,
-    backgroundColor:'#FFC700',
+    backgroundColor:colours.board,
     borderRadius:20,
     // marginBottom:10,
     zIndex:1,
@@ -188,7 +188,7 @@ const styles = StyleSheet.create({
   quickLinks:{
     width:270,
     height:210,
-    backgroundColor:'#395D89',
+    backgroundColor: colours.secondary,
     borderRadius:20,
     marginTop:-20,
     flexDirection:'row',

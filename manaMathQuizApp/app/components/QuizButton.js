@@ -1,6 +1,8 @@
 import React from "react";
 import { View,Text, StyleSheet, Touchable, TouchableOpacity } from "react-native";
 
+import colours from '../config/colours';
+
 import { complexAlgebraData } from "../config/quizData";
 
 import { AntDesign } from '@expo/vector-icons';
@@ -24,7 +26,7 @@ const Quiz=({text, onPress}) => {
       borderRadius:20,
       height: 60,
       width:289,
-      backgroundColor:'#395D89',
+      backgroundColor: colours.secondary,
       justifyContent:'space-between',
       alignItems:'center',
       padding:10,
