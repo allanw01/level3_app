@@ -4,13 +4,13 @@ import { useState, useEffect } from 'react';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import { clearStorage } from '../components/SaveScores';
+import { clearStorage } from '../utils/SaveScores';
 
 import { StackActions } from '@react-navigation/native';
 
 import PBStats from '../components/PBStats';
 
-import colours from '../config/colours';
+import colours from '../utils/colours';
 
 import { Ionicons } from '@expo/vector-icons';
 import { FontAwesome5 } from '@expo/vector-icons';

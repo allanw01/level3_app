@@ -4,12 +4,12 @@ import { useState, useRef, useEffect } from 'react';
 
 import { StackActions } from '@react-navigation/native';
 
-import { complexAlgebraData, integrationData, differentiationData } from "../config/quizData";
+import { complexAlgebraData, integrationData, differentiationData } from "../utils/quizData";
 
 import Quiz from "../components/QuizButton.js";
 
-import {SaveUserData} from '../components/SaveScores';
-import colours from '../config/colours';
+import {SaveUserData} from '../utils/SaveScores';
+import colours from '../utils/colours';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 

@@ -1,9 +1,8 @@
 import React from "react";
 import { View,Text, StyleSheet, Touchable, TouchableOpacity } from "react-native";
 
-import colours from '../config/colours';
+import colours from '../utils/colours';
 
-import { complexAlgebraData } from "../config/quizData";
 
 import { AntDesign } from '@expo/vector-icons';
 

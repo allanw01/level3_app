@@ -3,13 +3,13 @@ import { StyleSheet, Text, View, TouchableOpacity, Image, ActivityIndicator } fr
 import { useState, useEffect } from 'react';
 
 import { StackActions } from '@react-navigation/native';
-import colours from '../config/colours';
+import colours from '../utils/colours';
 
 import QuickLinkButtons from '../components/QuickLinkButton';
-import getStoredData from '../components/GrabStoredData';
-import {createAndSharePDF} from '../components/ExportResults';
+import getStoredData from '../utils/GrabStoredData';
+import {createAndSharePDF} from '../utils/ExportResults';
 
-import { complexAlgebraData, integrationData, differentiationData } from "../config/quizData";
+import { complexAlgebraData, integrationData, differentiationData } from "../utils/quizData";
 
 import { Ionicons } from '@expo/vector-icons';
 import { FontAwesome5 } from '@expo/vector-icons';

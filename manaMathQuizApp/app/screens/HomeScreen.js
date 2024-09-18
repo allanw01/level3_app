@@ -5,13 +5,13 @@ import { useState } from 'react';
 import HomeBtn from "../components/HomeButton";
 import PBStats from "../components/PBStats";
 
-import { clearStorage } from '../components/SaveScores';
-import colours from '../config/colours';
+import { clearStorage } from '../utils/SaveScores';
+import colours from '../utils/colours';
 
 import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
 import { Ionicons } from '@expo/vector-icons';
 
-import { complexAlgebraData, integrationData, differentiationData } from "../config/quizData";
+import { complexAlgebraData, integrationData, differentiationData } from "../utils/quizData";
 
 function HomeScreen( { navigation } ) {
 

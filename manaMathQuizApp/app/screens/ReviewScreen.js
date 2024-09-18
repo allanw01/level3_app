@@ -3,12 +3,12 @@ import { StyleSheet, Text, View, TouchableOpacity, Image, FlatList, ActivityIndi
 import { useState, useEffect } from 'react';
 
 import ReviewAnswerBtn from '../components/ReviewAnswerButton';
-import getStoredData from '../components/GrabStoredData';
-import colours from '../config/colours';
+import getStoredData from '../utils/GrabStoredData';
+import colours from '../utils/colours';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import { clearStorage } from '../components/SaveScores';
+import { clearStorage } from '../utils/SaveScores';
 
 import { StackActions } from '@react-navigation/native';
 

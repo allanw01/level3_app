@@ -2,7 +2,7 @@ import React from "react";
 import { View,Text, StyleSheet, Touchable, TouchableOpacity, Image } from "react-native";
 // import { Image } from 'expo-image';
 
-import colours from "../config/colours";
+import colours from "../utils/colours";
 
 import { FontAwesome5 } from '@expo/vector-icons';
 
