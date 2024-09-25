@@ -1,27 +1,8 @@
-// export const complexAlgebraData = [ 
-  
-//   {
-//     question: "x^2=4",
-//     options: ['2','8,-8','4,-4', '2,-9'],
-//     answer: '2'
-//   },  
-//   {
-//     question: "2+2",
-//     options: ['1','2','3', '4'],
-//     answer: '4'
-//   },
-//   {
-//     question: "1+3",
-//     options: ['2','8,-8','4', '2,-9'],
-//     answer: '4'
-//   },  
-//   {
-//     question: "8+2",
-//     options: ['2','10','4,-4', '2,-9'],
-//     answer: '10'
-//   },  
-// ]
+// Author: Allan Wu
 
+//Objects of Questions and Answers for my quiz.
+
+//Complex Algebra Data: Object that contians a question. An array of possible answers and answer to the question.
 export const complexAlgebraData = [ 
   {
     question: "What is the conjugate of 5 - 3i?",
@@ -150,6 +131,7 @@ export const complexAlgebraData = [
   }
 ];
 
+//Intergration Data: Object that contians a question. An array of possible answers and answer to the question.
 export const integrationData = [ 
   {
     question: "What is the integral of 6x^2?",
@@ -278,6 +260,7 @@ export const integrationData = [
   }
 ];
 
+//Differentiation Data: Object that contians a question. An array of possible answers and answer to the question.
 export const differentiationData = [ 
   {
     question: "What is the derivative of 8x^3?",

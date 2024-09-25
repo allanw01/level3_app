@@ -1,6 +1,11 @@
+// Author: Allan Wu
+
+//Importing React Native Components
 import React from "react";
 import { View,Text, StyleSheet, Image, TouchableOpacity } from "react-native";
 
+//A button where there is an image on top of the text which is used in the finish screen.
+//Takes in the parameters: 'text', 'onPress' function and the path 'imgSource'. 
 const QuickLinkButtons = ({ text, imgSource, onPress}) => {
     return (
         <TouchableOpacity onPress={onPress}>
@@ -12,6 +17,7 @@ const QuickLinkButtons = ({ text, imgSource, onPress}) => {
     )
 }
 
+//Styles for the component above
 const styles = StyleSheet.create({
     stats:{
         flexDirection:'column', 
@@ -22,10 +28,8 @@ const styles = StyleSheet.create({
     image:{
         flexDirection:'column',
         alignItems:'flex-start',
-        height:32,
-        width:32,
-        
-        
+        height:32, //Height of the image
+        width:32, //Width of the image
     },
     text: {
         color: '#FFFFFF',

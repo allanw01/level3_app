@@ -1,38 +1,41 @@
+// Author: Allan Wu
+
+// Importing React Native Components
 import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
+import { StyleSheet, Text, View, Image } from 'react-native';
 import { useState, useRef, useEffect } from 'react';
 
+//Importing react native stack navigation from '@react-navigation'
 import { StackActions } from '@react-navigation/native';
 
-import { complexAlgebraData, integrationData, differentiationData } from "../utils/quizData";
-
+// Importing my components
 import Quiz from "../components/QuizButton.js";
+import AppHeader from '../components/AppHeader.js';
 
+//importing my utils
 import {SaveUserData} from '../utils/SaveScores';
+
+//Importing my colours
 import colours from '../utils/colours';
 
+//Importing the Async Storage module / library
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import { FontAwesome5 } from '@expo/vector-icons';
-import { Ionicons } from '@expo/vector-icons';
-
+//Quiz Screen Function
 function QuizScreen( { navigation, route } ) {
 
+  //Retrieves the values that I pass in from the finish or home screen
   let quizData = route.params.quizData;
   let saveScorePath = route.params.quizType
 
-  // Variables for running the quiz:
-  const [currentQuestion, setCurrentQuestion] = useState(0);
-  const [showFinishQuiz, setShowFinishQuiz] = useState(false);
-  const [shouldNavigate, setShouldNavigate] = useState(false);
-  // const [saveUserScorePath, setSaveUserScorePath]= useState(saveScorePath)
+  //Declearing my react states that I used in this function: 
+  const [currentQuestion, setCurrentQuestion] = useState(0); //Determines the question to be display. Intially set to 0 for the first question
+  const [shouldNavigate, setShouldNavigate] = useState(false); //This state is used to determine when its ready to switch to the finish screen after states are updated
+  const [score, setScore] = useState(0); // This states tracks the user score
 
-  // Variables for the score Tracker:
-  const [score, setScore] = useState(0);
+  const [userAnswers, setUserAnswers] = useState([]); //This states stores the current quiz questions / correct answers / user answers for the quiz so that it can be saved and use after the user finishes the quiz
 
-  const [userAnswers, setUserAnswers] = useState([]);
-
-  // Variables for the quiz timer:
+  // React States for the quiz timer:
   const [time, setTime] = useState(0); // State to keep track of the elapsed time in seconds
   const [timerIsRunning, setTimerIsRunning] = useState(true);  // State to determine if the stopwatch is running or not
   const timerRef = useRef(null); // Reference to store the interval ID for the timer
@@ -52,20 +55,17 @@ function QuizScreen( { navigation, route } ) {
     return () => clearInterval(timerRef.current);
   }, [timerIsRunning]);
 
+  //Function to save user scores so that it can view in the view record screen
   const saveAndReturnScores = async () => {
     const userScore = score;
     const userTime = formatTime(time);
-    const saveUserScorePath = saveScorePath
-    console.log(saveUserScorePath)
-    const updatedScores = await SaveUserData(userScore, userTime, saveUserScorePath);
-    // console.log(updatedScores); // This will log the updated array of scores
+    const saveUserScorePath = saveScorePath //Path Id where the score is saved depending what quiz the user is doing
+    await SaveUserData(userScore, userTime, saveUserScorePath);
   };
-
 
   // Before Navigating, makes sure the score state is updated properly
   useEffect(() => {
     if (shouldNavigate) {
-      // SaveUserData(userScore = score, userTime = time, fil ='../userData/complex.txt')
       saveAndReturnScores()
       // Perform navigation after state update
       navigation.dispatch(
@@ -76,15 +76,9 @@ function QuizScreen( { navigation, route } ) {
   }, [shouldNavigate, score, navigation]);
 
 
-  // Handler for the start/stop button
+  // Handler for the start/stop the timer
   const handleStop = () => {
     setTimerIsRunning(false);
-  };
-
-  // Handler for the reset button
-  const handleReset = () => {
-    setTimerIsRunning(false);
-    setTime(0);
   };
 
   // Function to format the time in HH:MM:SS format
@@ -97,20 +91,19 @@ function QuizScreen( { navigation, route } ) {
     return `${getHours}:${getMinutes}:${getSeconds}`;
   };
 
-  // Running the Quiz (checking user answers)
+  // Running the Quiz ( fucntion for checking the user answers)
   const handleAnswer = (selectedAnswer) => {
-    const answer = quizData[currentQuestion]?.answer;
-    const nextQuestion = currentQuestion + 1;
-
+    const answer = quizData[currentQuestion]?.answer; //Finds the correct answer for the current question
+    const nextQuestion = currentQuestion + 1; // Determines the next question ID
 
     // Saving User Answers so that it can be used for the Review Answer Screen
     const userQuestionAnswer = [quizData[currentQuestion]?.question, selectedAnswer, answer ];
-    // console.log(userQuestionAnswer)
-
+    
+    //Storing the user's answers into the state
     userAnswers.push(userQuestionAnswer);
     setUserAnswers(userAnswers);
-    // console.log(userAnswers);
 
+    //Function to save (write) the user answers for later use (stores: questions, user answers and correct answers)
     const writeScores = async (tempUserAnswers) => {
       const jsonValue = JSON.stringify(tempUserAnswers);
       await AsyncStorage.setItem('@reviewAnswers', jsonValue); // Store the scores array as a JSON string
@@ -118,68 +111,53 @@ function QuizScreen( { navigation, route } ) {
     
     // Checking the answers and switching questions or screens
     if(answer === selectedAnswer){
-      // setScore((prevScore) => prevScore + 1);
       setScore(score+1);
-      setCurrentQuestion(nextQuestion);
+      setCurrentQuestion(nextQuestion); //Switches to next question is it is correct
     }
 
     if(nextQuestion < quizData.length) {
-      setCurrentQuestion(nextQuestion);
+      setCurrentQuestion(nextQuestion); //Switches to next question is it is incorrect
     } else {
-      handleStop()
-      writeScores(userAnswers);
-      setShouldNavigate(true);
+      handleStop() //Stops the timer
+      writeScores(userAnswers); //Saves the user's answers
+      setShouldNavigate(true); //Allows for navigation
     }
   }
 
-  return (
-    
+  return (  
     <View style={styles.container}>
 
-      {/* Header + Back Button */}
-      <View style={styles.header}>
-        {/* <TouchableOpacity onPress={() => console.log("Back Button Clciked")}>
-        <FontAwesome5 style={styles.backIcon} name="backspace" size={32} color="#ffbb33" />
-        </TouchableOpacity> */}
-        <Text style={styles.headerText}>MANA MATH</Text>
-      </View>
+      {/* App Header*/}
+      <AppHeader/>
 
-      {showFinishQuiz ? <View>
-        <Text>You have finish the quiz</Text>
-        <Text>Your score {score} /2</Text>
-        <Text>Your time is {formatTime(time)}</Text>
-        
-      </View> :
-      <View style={styles.answerButtons}>
-        {/* Statistics Pannel */}
+      <View style={styles.quizWrapper}>
+        {/* Statistics Pannel (Yellow Board) */}
         <View style={styles.statisticsPanel}>
           <View style={styles.statisticsPanelTop}>
             <Text style={styles.statisticsPanelText}>Question No. {currentQuestion+1}/10</Text>
+            {/* Timer for the quiz */}
             <View style={styles.timer}>
               <Image style={{marginRight:5,paddingBottom:5}} source={require('../assets/clock.png')} />
               <Text style={styles.statisticsPanelText}>{formatTime(time)}</Text>
             </View>
-            {/* <Text style={styles.statisticsPannelText}>What is: </Text> */}
           </View>
-          
+          {/* Quiz Questions */}
           <View style={styles.statisticsPanelQuestion}>
             <Text style={styles.statisticsPanelText}>{quizData[currentQuestion]?.question} </Text>
           </View>
         </View>
 
-        <View style={styles.answerButtons}>
-        
         {/* Mutichoice Answer Buttons */}
-        </View>
         {quizData[currentQuestion]?.options.map((item, index) => {
             return <Quiz key={index} text={item} onPress={()=> handleAnswer(item)}/>
           })}
       </View>
-      }
+      
     </View>
   );
 }
 
+//Styling the quiz screen
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -189,82 +167,45 @@ const styles = StyleSheet.create({
     backgroundColor: colours.primary,
   },
 
-  header:{
-    marginBottom:60,
-  },
-  backIcon:{
-    alignSelf:'flex-start',
-    paddingBottom:5,
-  },
-  headerText:{
-    color: '#FFF',
-    fontWeight:'bold',
-    fontSize:30,
-    textAlign:'left',
-  },
-
-  answerButtons:{
+  //Styling the layout of the quiz app (statistics panel and the answer buttons)
+  quizWrapper:{
     justifyContent:'center',
     alignItems:'center',
   },
 
-  button:{
-    flexDirection:'row',
-    borderRadius:20,
-    height: 60,
-    width:289,
-    backgroundColor:'#9DD93D',
-    justifyContent:'space-between',
-    alignItems:'center',
-    padding:10,
-    margin:5,
-  },
-  buttonText:{
-    color: 'black',
-    fontWeight:'bold',
-    fontSize:15,
-    textAlign:'left',
-  },
-
+  //Styling for the statistics panel that contains: image+timer, question no and the question
   statisticsPanel:{
     flexDirection:'column',
     justifyContent: 'center',
     alignItems:'center',
-    width:329,
-    height:130,
+    width:329, //Width of the panel
+    height:130, //Height of the panel
     backgroundColor: colours.board,
     borderRadius:20,
     marginBottom:10,
   },
 
+  //Styling the top row (question no. and timer)
   statisticsPanelTop:{
     flexDirection:'row',
     width:'90%',
     justifyContent:'space-evenly',
     alignItems:'center',
-    // marginLeft:20,
-    // marginRight:20,
-    // paddingLeft:20,
-    // paddingRight:20,
   },
 
-  statisticsPanelQuestion:{
-    width:'80%',
-    // justifyContent:'flex-start',
-    // alignItems:'center',
-    // marginLeft:20,
-    // marginRight:20,
-
-  },
-
+  //Styling the timer in the statistic panel
   timer:{
     flexDirection:'row',
     justifyContent:'center',
     alignItems:'center',
   },
 
-  
+  //Styling the question in the statistic panel
+  statisticsPanelQuestion:{
+    width:'80%',
+  },
 
+  //Styles for the text found in the statisitc panel
   statisticsPanelText:{
     color: 'black',
     fontWeight:'bold',
@@ -273,9 +214,6 @@ const styles = StyleSheet.create({
     paddingBottom:10,
     textAlign:'left',
   },
-
-
-
 });
 
 export default QuizScreen;

@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, Button, FlatList } from 'react-native';
-// import { AsyncStorage } from 'react-native'; 
+// Author: Allan Wu
 
+//Importing the Async Storage module / library
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // Function to handle everything: add score, update storage, and return the updated array
@@ -15,7 +14,7 @@ export const SaveUserData = async (score, time, path) => {
       return date + '-' + month + '-' + year; // Format: d-m-y
     };
 
-    const date = getCurrentDate(); // Generate the current date
+    const date = getCurrentDate(); // Calls the getCurrentDate function to get today's date.
 
     // Read existing scores from AsyncStorage
     const readScores = async () => {
@@ -42,11 +41,13 @@ export const SaveUserData = async (score, time, path) => {
   }
 };
 
+//Function to clear all stored data (this action cannot be undone)
 export const clearStorage = async () => {
   try {
     await AsyncStorage.clear();
     console.log('AsyncStorage has been cleared');
   } catch (e) {
+    //Error message will be logged if it is unsucessful
     console.error('Failed to clear AsyncStorage:', e);
   }
 };
