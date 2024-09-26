@@ -123,8 +123,8 @@ const styles = StyleSheet.create({
 
   //Styles for the review Answer screen header section (yellow board)
   reviewAnswers:{
-    width:329, //width of the header section
-    height:110, //height of the header section
+    width:305, //width of the header section
+    height:105, //height of the header section
     flexDirection:'row',
     justifyContent: 'space-between',
     alignItems:'center',
@@ -146,7 +146,7 @@ const styles = StyleSheet.create({
   //Styling for the title in the header
   title:{
     fontWeight:'bold',
-    fontSize:15,
+    fontSize:17,
     textAlign:'left',
   },
 
@@ -164,6 +164,7 @@ const styles = StyleSheet.create({
   //Styling for the review answer content text
   text:{
     textAlign:'left',
+    fontSize:15,
   },
 
 });

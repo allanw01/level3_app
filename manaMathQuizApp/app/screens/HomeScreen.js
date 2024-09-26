@@ -205,7 +205,7 @@ const styles = StyleSheet.create({
   //Styles for the view record board/ panel
   viewRecord:{
     width:329, //width of the view record board /panel
-    height:166, //height of the view record board /panel
+    height:140, //height of the view record board /panel
     justifyContent: 'center',
     backgroundColor:  colours.board,
     borderRadius:20,
