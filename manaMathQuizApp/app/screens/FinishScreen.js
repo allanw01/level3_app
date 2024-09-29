@@ -109,12 +109,12 @@ function FinishScreen( { navigation, route } ) {
         <View style={styles.statisticsPanel}>
           {/* User's time section */}
           <View style={styles.statisticsPanelTimer}>
-            <Image style={{marginRight:5,paddingBottom:5}} source={require('../assets/clock.png')} />
+            <Image style={styles.image} source={require('../assets/clock.png')} />
             <Text style={styles.statisticsPanelText}>Time: {time}</Text>
           </View>
           {/* User's Score section */}
           <View style={styles.statisticsPanelScore}>
-            <Image style={{marginRight:5,paddingBottom:5}} source={require('../assets/score.png')} />
+            <Image style={styles.image} source={require('../assets/score.png')} />
             <Text style={styles.statisticsPanelText}>Final Score: {score}</Text>
           </View>
         </View>
@@ -170,6 +170,11 @@ const styles = StyleSheet.create({
     backgroundColor:colours.board, // Makes the panel yellow
     borderRadius:20,
     zIndex:1, //Brings the statitics Panel fowards on top of the quick links panel
+  },
+  //Styling of the images in the statistics panel
+  image:{
+    marginRight:5,
+    paddingBottom:5,
   },
   //Styling of the statistics panel user score
   statisticsPanelScore:{

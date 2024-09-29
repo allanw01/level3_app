@@ -138,7 +138,7 @@ function QuizScreen( { navigation, route } ) {
             <Text style={styles.statisticsPanelText}>Question No. {currentQuestion+1}/10</Text>
             {/* Timer for the quiz */}
             <View style={styles.timer}>
-              <Image style={{marginRight:5,paddingBottom:5}} source={require('../assets/clock.png')} />
+              <Image style={styles.timerImage} source={require('../assets/clock.png')} />
               <Text style={styles.statisticsPanelText}>{formatTime(time)}</Text>
             </View>
           </View>
@@ -199,6 +199,11 @@ const styles = StyleSheet.create({
     flexDirection:'row',
     justifyContent:'center',
     alignItems:'center',
+  },
+  //Styling of the image of the timer
+  timerImage:{
+    marginRight:5,
+    paddingBottom:5,
   },
 
   //Styling the question in the statistic panel
