@@ -11,6 +11,7 @@ import AppHeader from '../components/AppHeader';
 
 //importing my utils
 import getStoredData from '../utils/GrabStoredData';
+import scaleFontSize from '../utils/ScaleFontSize';
 
 //Importing my colours
 import colours from '../utils/colours';
@@ -146,7 +147,7 @@ const styles = StyleSheet.create({
   //Styling for the title in the header
   title:{
     fontWeight:'bold',
-    fontSize:17,
+    fontSize:scaleFontSize(19),
     textAlign:'left',
   },
 
@@ -164,7 +165,7 @@ const styles = StyleSheet.create({
   //Styling for the review answer content text
   text:{
     textAlign:'left',
-    fontSize:15,
+    fontSize:scaleFontSize(17),
   },
 
 });

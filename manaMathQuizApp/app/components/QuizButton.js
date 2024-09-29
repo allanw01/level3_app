@@ -7,6 +7,9 @@ import { View,Text, StyleSheet, TouchableOpacity } from "react-native";
 // Importing my colours
 import colours from '../utils/colours';
 
+//importing my utils
+import scaleFontSize from "../utils/ScaleFontSize";
+
 // Importing icons from expo
 import { AntDesign } from '@expo/vector-icons';
 
@@ -39,7 +42,7 @@ const styles = StyleSheet.create({
 buttonText:{
     color: 'black',
     fontWeight:'bold',
-    fontSize:15,
+    fontSize:scaleFontSize(17),
     textAlign:'left',
     
 },

@@ -4,6 +4,9 @@
 import React from "react";
 import { View,Text, StyleSheet, TouchableOpacity } from "react-native";
 
+//importing my utils
+import scaleFontSize from "../utils/ScaleFontSize";
+
 // Importing icons from expo
 import AntDesign from '@expo/vector-icons/AntDesign';
 
@@ -40,7 +43,7 @@ const styles = StyleSheet.create({
   buttonText:{
     color: 'black',
     fontWeight:'bold',
-    fontSize:15,
+    fontSize: scaleFontSize(17),
     textAlign:'left',
   },
   //Centers the image (expo icon) of the button.  

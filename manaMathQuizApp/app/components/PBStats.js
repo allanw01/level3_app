@@ -4,6 +4,9 @@
 import React from "react";
 import { View,Text, StyleSheet, Image, TouchableOpacity } from "react-native";
 
+//importing my utils
+import scaleFontSize from "../utils/ScaleFontSize";
+
 //Component (button) for image on top and text below it for the view record button found in the home screen. 
 //Takes in the parameters: 'text', 'onPress' function and the path 'imgSource'.
 const PBStats = ({ onPress, text, imgSource}) => {
@@ -34,7 +37,7 @@ const styles = StyleSheet.create({
     text: {
         color: 'black',
         fontWeight:'bold',
-        fontSize:13,
+        fontSize:scaleFontSize(15),
         textAlign:'left',
     },
 });

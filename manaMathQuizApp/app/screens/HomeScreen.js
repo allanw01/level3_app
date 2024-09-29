@@ -2,7 +2,7 @@
 
 // Importing React Native Components
 import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, Modal, Alert } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, Modal, Alert, Dimensions, PixelRatio } from 'react-native';
 import { useState } from 'react';
 
 // Importing my components
@@ -13,6 +13,7 @@ import AppHeader from '../components/AppHeader';
 //importing my utils
 import { clearStorage } from '../utils/SaveScores';
 import getRandomQuestions from '../utils/GetRandomQuestions';
+import scaleFontSize from '../utils/ScaleFontSize';
 
 //Importing my colours
 import colours from '../utils/colours';
@@ -173,21 +174,21 @@ const styles = StyleSheet.create({
   // Styles for the settings title
   modalTitleText:{
     fontWeight:'bold',
-    fontSize:30,
+    fontSize:scaleFontSize(32),
     textAlign:'left',
     marginBottom:20,
   },
   // Styles for any body text in the settings modal
   modalText:{
     fontWeight:'bold',
-    fontSize:15,
+    fontSize: scaleFontSize(17),
     textAlign:'left',
     marginBottom:20,
   },
   // Styles for the text inside each buttons
   modalButtonText:{
     fontWeight:'bold',
-    fontSize:15,
+    fontSize:scaleFontSize(17),
     textAlign:'left',
   },
 
@@ -216,7 +217,7 @@ const styles = StyleSheet.create({
   PBTitle:{
     paddingLeft:20,
     fontWeight:'bold',
-    fontSize:15,
+    fontSize:scaleFontSize(19),
     textAlign:'left',
   },
   //Styles for the arrangments of each view record buttons (intergration, differientiation, complex numbers)

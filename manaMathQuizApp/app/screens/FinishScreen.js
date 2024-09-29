@@ -16,6 +16,7 @@ import AppHeader from '../components/AppHeader';
 import getStoredData from '../utils/GrabStoredData';
 import {createAndSharePDF} from '../utils/ExportResults';
 import getRandomQuestions from '../utils/GetRandomQuestions'; //Imports the function that gets a random set of questions for the user to answer in the quiz screen
+import scaleFontSize from '../utils/ScaleFontSize';
 
 //importing my dataset for the play again button
 import { complexAlgebraData, integrationData, differentiationData } from "../utils/quizData";
@@ -185,7 +186,7 @@ const styles = StyleSheet.create({
   statisticsPanelText:{ // Styling of the statisitc panel text
     color: 'black',
     fontWeight:'bold',
-    fontSize:16,
+    fontSize:scaleFontSize(18),
     paddingTop:10,
     paddingBottom:10,
   },

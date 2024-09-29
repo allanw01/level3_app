@@ -14,6 +14,7 @@ import AppHeader from '../components/AppHeader.js';
 
 //importing my utils
 import {SaveUserData} from '../utils/SaveScores';
+import scaleFontSize from '../utils/ScaleFontSize.js';
 
 //Importing my colours
 import colours from '../utils/colours';
@@ -209,7 +210,7 @@ const styles = StyleSheet.create({
   statisticsPanelText:{
     color: 'black',
     fontWeight:'bold',
-    fontSize:16,
+    fontSize:scaleFontSize(18),
     paddingTop:10,
     paddingBottom:10,
     textAlign:'left',

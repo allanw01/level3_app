@@ -4,6 +4,10 @@
 import React from "react";
 import { View,Text, StyleSheet, Image, TouchableOpacity } from "react-native";
 
+//importing my utils
+import scaleFontSize from "../utils/ScaleFontSize";
+
+
 //A button where there is an image on top of the text which is used in the finish screen.
 //Takes in the parameters: 'text', 'onPress' function and the path 'imgSource'. 
 const QuickLinkButtons = ({ text, imgSource, onPress}) => {
@@ -34,7 +38,7 @@ const styles = StyleSheet.create({
     text: {
         color: '#FFFFFF',
         fontWeight:'bold',
-        fontSize:11,
+        fontSize:scaleFontSize(13),
         textAlign:'left',
     },
 });

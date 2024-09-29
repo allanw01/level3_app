@@ -15,6 +15,9 @@ import AppHeader from '../components/AppHeader';
 //Importing my colours
 import colours from '../utils/colours';
 
+//importing my utils
+import scaleFontSize from "../utils/ScaleFontSize";
+
 //View Record Screen function
 function ViewRecordScreen( { navigation, route } ) {
 
@@ -113,7 +116,7 @@ const styles = StyleSheet.create({
   PBTitle:{
     paddingLeft:20,
     fontWeight:'bold',
-    fontSize:15,
+    fontSize:scaleFontSize(19),
     textAlign:'left',
   },
 
@@ -152,6 +155,7 @@ const styles = StyleSheet.create({
   text: {
     flex: 1,
     textAlign: 'center',
+    fontSize:scaleFontSize(17),
   },
 
 });

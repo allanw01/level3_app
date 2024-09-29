@@ -4,6 +4,9 @@
 import React from "react";
 import { View,Text, StyleSheet} from "react-native";
 
+//importing my utils
+import scaleFontSize from "../utils/ScaleFontSize";
+
 //Generic App header across the different screens
 const AppHeader = () => {
     return (
@@ -24,7 +27,7 @@ const styles = StyleSheet.create({
     headerText:{
         color: '#FFF', //Makes the text white
         fontWeight:'bold',
-        fontSize:30,
+        fontSize:scaleFontSize(34),
         textAlign:'left',
     },
 });
