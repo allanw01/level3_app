@@ -175,6 +175,8 @@ const styles = StyleSheet.create({
   image:{
     marginRight:5,
     paddingBottom:5,
+    width:32,
+    height:34,
   },
   //Styling of the statistics panel user score
   statisticsPanelScore:{
