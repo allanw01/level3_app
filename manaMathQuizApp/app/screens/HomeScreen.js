@@ -2,7 +2,7 @@
 
 // Importing React Native Components
 import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, Modal, Alert, Dimensions, PixelRatio } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, Modal, Alert } from 'react-native';
 import { useState } from 'react';
 
 // Importing my components
@@ -83,6 +83,7 @@ function HomeScreen( { navigation } ) {
                     <Text style={styles.modalButtonText} >Close</Text>
                 </View>
             </TouchableOpacity>
+            <Text style={styles.supportText}>Contact Support: help@manaMath.com</Text>
           </View>
         </View>      
       </Modal>
@@ -170,6 +171,7 @@ const styles = StyleSheet.create({
     justifyContent:'center',
     alignItems:'center',
     marginTop:30,
+    marginBottom:10,
   },
   // Styles for the settings title
   modalTitleText:{
@@ -190,6 +192,10 @@ const styles = StyleSheet.create({
     fontWeight:'bold',
     fontSize:scaleFontSize(17),
     textAlign:'left',
+  },
+  //Styles for the support text
+  supportText:{
+    fontSize:scaleFontSize(14),
   },
 
   //Styles for the settings button
