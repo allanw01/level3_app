@@ -83,7 +83,7 @@ function HomeScreen( { navigation } ) {
                     <Text style={styles.modalButtonText} >Close</Text>
                 </View>
             </TouchableOpacity>
-            <Text style={styles.supportText}>Contact Support: help@manaMath.com</Text>
+            <Text style={styles.supportText}>Contact Support: manamathnz@gmail.com</Text>
           </View>
         </View>      
       </Modal>
